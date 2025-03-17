@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(45deg, #3a4f56, #2e2751, #3d3428);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .navcontainer {
+            background-color: transparent;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 50px;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar ul li a {
+            text-decoration: none;
+            color: #dcdbdb;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid rgb(152, 142, 142);
+            transition: all 0.3s ease-in-out;
+        }
+        .navbar ul li a:hover {
+            color: #e2b01a;
+            background-color: #044679;
+            border: 1px solid #559fd8;
+            transform: scale(1.05);
+        }
+        .container {
+            text-align: center;
+            padding: 10px 10px;
+            background:transparent;
+            border-radius: 12px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            max-width: 900px;
+            min-width: 400px;
+        }
+        .container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #7a922c;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .contact-form input, .contact-form textarea {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: transparent;
+        }
+        .contact-form button {
+            padding: 12px;
+            background-color: #3da14f;
+            color: #fff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="navcontainer">
+        <div class="logo">
+            <a href="/"><img src="{% static 'images/krimalogo.png' %}" alt="krima"></a>
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="/"><i class="fa-solid fa-briefcase"></i> Home</a></li>
+                <li><a href="#"><i class="fa-solid fa-user"></i> Profile</a></li>
+                <li><a href="/logout"><i class="fa-solid fa-lock"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Contact Us</h1>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</body>
+</html>

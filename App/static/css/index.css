@@ -1,0 +1,875 @@
+/* General Styles */
+
+body {
+    margin: 0;
+    font-family: Tahoma, sans-serif;
+    /* Enforce custom font */
+}
+
+.lexend-deca-font {
+    font-family: "Lexend Deca", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.lexend-deca-font1 {
+    font-family: "Lexend Deca", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.lexend-deca-font2 {
+    font-family: "Lexend Deca", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Navigation Container */
+.navcontainer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 30px !important;
+    /* background-color: #f9f9f9 !important; */
+}
+
+/* Logo */
+.logo img {
+    height: 50px !important;
+    /* Enforce logo size */
+}
+
+/* Navbar */
+.navbar ul {
+    list-style: none !important;
+    display: flex !important;
+    gap: 15px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar ul li {
+    display: inline !important;
+}
+
+.navbar ul li a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    /* Space between icon and text */
+    text-decoration: none !important;
+    color: #333 !important;
+    /* Improved text color */
+    background-color: #ececec !important;
+    /* Soft gray background */
+    font-size: 14px !important;
+    /* Font size slightly smaller */
+    font-weight: bold !important;
+    padding: 8px 15px !important;
+    /* Padding for better spacing */
+    border-radius: 5px !important;
+    /* Rounded corners */
+    border: 1px solid transparent !important;
+    /* No visible border by default */
+    transition: all 0.3s ease-in-out !important;
+    /* Smooth hover effects */
+}
+
+/* Hover Effects */
+.navbar ul li a:hover {
+    color: #e2b01a !important;
+    /* White text color on hover */
+    background-color: #044679 !important;
+    /* Blue background on hover */
+    border: 1px solid #559fd8 !important;
+    /* Blue border on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    /* Subtle shadow */
+    transform: scale(1.05) !important;
+    /* Slight scaling effect */
+}
+
+/* Icons */
+.navbar ul li a i {
+    font-size: 16px !important;
+    /* Icon size */
+    color: #74c0fc !important;
+    /* Initial color for icons */
+    transition: color 0.3s ease-in-out !important;
+}
+
+.navbar ul li a:hover i {
+    color: #ffcc33 !important;
+    /* Change icon color on hover */
+}
+
+/* Section Container */
+.section {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 15px !important;
+    /* Padding for overall section */
+    /* background-color: #f4f4f9 !important; */
+    /* Light background for section */
+    overflow-x: auto !important;
+    /* Enable horizontal scrolling for overflow */
+    white-space: nowrap !important;
+    /* Prevent wrapping */
+}
+
+/* List Items */
+.section ul {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    /* Prevent wrapping */
+    gap: 10px !important;
+    /* Space between list items */
+}
+
+.section ul li {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 12px !important;
+    /* Space between icon and text */
+    height: 40px !important;
+    /* Adjusted height for better spacing */
+    padding: 0 18px !important;
+    /* Padding for consistent spacing */
+    background: linear-gradient(145deg, #e7e9eb, #fafdfd);
+    /* Modern gradient background */
+    border-radius: 10px !important;
+    /* Rounded corners */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1), -3px -3px 10px rgba(255, 255, 255, 0.3) !important;
+    /* Subtle shadow */
+    transition: all 0.3s ease !important;
+    /* Smooth hover effect */
+}
+
+/* Example active styling */
+
+/* Style for the active state */
+.icon-box.active a {
+    color: #dcd508 !important;
+    /* White text color for active link */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    /* Shadow for active item */
+}
+
+.icon-box.active a i {
+    color: #dcd508 !important;
+    /* White text color for active link */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    /* Shadow for active item */
+}
+
+.icon-box.active {
+    background: linear-gradient(145deg, #030756, #043b66) !important;
+    /* Darker hover gradient */
+    transform: translateY(-2px) !important;
+    /* Subtle lift effect */
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2), -6px -6px 15px rgba(255, 255, 255, 0.4) !important;
+    /* Enhanced shadow */
+}
+
+/* Links Inside <li> */
+.section ul li a {
+    font-size: 15px !important;
+    /* Text size */
+    font-weight: 600 !important;
+    /* Bold text */
+    color: #3f3333 !important;
+    /* Text color */
+    text-decoration: none !important;
+    /* Remove underline */
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    /* Space between icon and text */
+    width: 100% !important;
+    /* Full width */
+    height: 100% !important;
+    /* Full height */
+}
+
+/* Icon Styling */
+.section ul li a i {
+    font-size: 17px !important;
+    /* Icon size */
+    color: #363329 !important;
+    /* Initial color for icons */
+    transition: color 0.3s ease, transform 0.3s ease !important;
+    /* Smooth hover */
+}
+
+/* Hover Effects */
+.section ul li:hover {
+    background: linear-gradient(145deg, #030756, #043b66) !important;
+    /* Darker hover gradient */
+    transform: translateY(-2px) !important;
+    /* Subtle lift effect */
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2), -6px -6px 15px rgba(255, 255, 255, 0.4) !important;
+    /* Enhanced shadow */
+}
+
+.section ul li:hover a {
+    color: #ffde59 !important;
+    /* Text highlights on hover */
+}
+
+.section ul li:hover i {
+    color: #ffde59 !important;
+    /* Icon highlights on hover */
+    transform: rotate(15deg) !important;
+    /* Playful rotation */
+}
+
+ul#menu li a.active {
+    transform: translateY(-2px) !important;
+    /* Subtle lift effect */
+    border-radius: 5px;
+    /* Optional: Add rounded corners */
+    color: yellow;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .section ul {
+        gap: 10px !important;
+        /* Adjust gap on smaller screens */
+    }
+
+    .section ul li {
+        min-width: 150px !important;
+        /* Smaller button size on smaller screens */
+    }
+}
+
+/* Modal container */
+
+.filter-modal {
+    display: none !important;
+    position: fixed !important;
+    z-index: 1000 !important;
+    left: 0 !important;
+    top: -25px !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.filter-modal.visible {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+/* Modal content styling */
+.filter-modal-content {
+    background-color: #fff !important;
+    padding: 10px !important;
+    border-radius: 15px !important;
+    width: 90% !important;
+    max-width: 1310px !important;
+    max-height: 605px !important;
+    /* Set max height */
+    overflow-y: auto !important;
+    /* Enable scrolling if content overflows */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+    transform: scale(0.9) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.filter-modal.visible .filter-modal-content {
+    transform: scale(1) !important;
+}
+
+/* Header styling */
+.filter-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 2px solid #f0f0f0 !important;
+    margin-bottom: 6px !important;
+    padding-bottom: 7px !important;
+}
+
+.filter-header h2 {
+    margin: 0 !important;
+    font-size: 1.8rem !important;
+    color: #333 !important;
+}
+
+.close-filter {
+    background: none !important;
+    border: none !important;
+    font-size: 1.2rem !important;
+    color: #888 !important;
+    cursor: pointer !important;
+    transition: color 0.2s !important;
+}
+
+.close-filter:hover {
+    color: #333 !important;
+}
+
+/* Filter options row */
+.filter-options-row {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.filter-section {
+    flex: 1 1 calc(50% - 15px) !important;
+    min-width: 100px !important;
+}
+
+.filter-section h3 {
+    font-size: 1.2rem !important;
+    margin-bottom: 4px !important;
+    color: #046a78 !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    border-radius: 12px;
+    height: 25px !important;
+    /* Adjusted height for better spacing */
+}
+
+.filter-section input[type="text"],
+.filter-section input[type="date"] {
+    width: 100% !important;
+    padding: 5px 10px !important;
+    margin-bottom: 7px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.filter-section input[type="text"]:focus,
+.filter-section input[type="date"]:focus {
+    border-color: #6098ff !important;
+    outline: none !important;
+}
+
+/* Sub-options (labels) styling */
+.sub-options {
+    max-height: 117px !important;
+    overflow-y: auto !important;
+}
+.sub-options {
+    max-height: 117px !important;
+    overflow-y: auto !important;
+}
+
+.add{
+    max-height: 207px !important;
+    overflow-y: auto !important; 
+}
+
+/* Wrapper for the range slider */
+.range-wrapper {
+    position: relative !important;
+    width: 350px !important;
+    /* Set width to 400px */
+    margin: 0 auto !important;
+}
+
+/* Styling for the range input */
+.range-slider {
+    width: 100% !important;
+    appearance: none !important;
+    height: 8px !important;
+    background: #ddd !important;
+    border-radius: 5px !important;
+    outline: none !important;
+    transition: background 0.3s ease !important;
+}
+
+/* Range slider thumb */
+.range-slider::-webkit-slider-thumb {
+    appearance: none !important;
+    width: 20px !important;
+    height: 20px !important;
+    background: #6098ff !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    transition: background 0.3s ease !important;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+    background: #4f7ae8 !important;
+}
+
+/* Labels for the range values */
+.range-labels {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 10px !important;
+}
+
+.range-labels span {
+    font-size: 1rem !important;
+    color: #333 !important;
+    font-weight: bold !important;
+}
+
+/* Hover effect for the labels */
+.range-labels span:hover {
+    color: #6098ff !important;
+}
+
+
+.sub-options label {
+    display: block !important;
+    margin-bottom: 8px !important;
+    font-size: 0.8rem !important;
+    /* Increased font size */
+    font-weight: 600 !important;
+    /* Adjusted font weight */
+    color: #020745 !important;
+    cursor: pointer !important;
+    transition: color 0.2s !important;
+}
+
+.sub-options label:hover {
+    color: #333 !important;
+    /* Added hover color change */
+}
+
+.sub-options label input[type="checkbox"] {
+    margin-right: 10px !important;
+}
+
+/* Footer styling */
+.filter-footer {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 15px !important;
+    margin-top: 13px !important;
+}
+
+.filter-apply,
+.filter-reset {
+    padding: 5px 10px !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.filter-apply {
+    background-color: #5b7d76 !important;
+    color: white !important;
+}
+
+.filter-apply:hover {
+    background-color: #090dfa !important;
+    transform: translateY(-2px) !important;
+}
+
+.filter-reset {
+    background-color: #f44336 !important;
+    color: white !important;
+}
+
+.filter-reset:hover {
+    background-color: #e53935 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #201d1d !important;
+    border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #201d1d !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filter-options-row {
+        flex-direction: column !important;
+    }
+
+    .filter-section {
+        flex: 1 1 100% !important;
+    }
+
+    .section ul {
+        flex-direction: column !important;
+    }
+}
+/* 
+div.card-body{
+    padding: 2px !important;
+} */
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.pagination-link {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.pagination-link:hover {
+    background-color: #007bff;
+    color: #ffffff;
+    border-color: #007bff;
+}
+
+.pagination-link.active {
+    background-color: #0056b3;
+    color: #ffffff;
+    border-color: #0056b3;
+}
+
+.pagination span {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.news-range {
+    text-align: left;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination-link {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.pagination-link.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination-link:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+section.our-facts {
+    /* padding:10px 20px; */
+    text-align: center;
+}
+
+.count-area-content {
+    display: inline-block;
+    background: linear-gradient(145deg, #e7e9eb, #fafdfd) !important;
+    color: rgb(5, 38, 67);
+    border-radius: 12px;
+    padding: 3px 30px;
+    margin-left: 5px;
+}
+
+.count-digit {
+    font-size:25px;
+    font-weight: bolder;
+    color: #3d3f76;
+}
+
+.count-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.atag:hover {
+    text-decoration: underline !important;
+    color: #060d8a !important;
+}
+
+.atag1:hover {
+    text-decoration: underline !important;
+    color: #055a6b !important;
+    font-weight: 500;
+    font-family: Tahoma, sans-serif;
+    transition: all 0.4s ease !important;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.selected-countries {
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    padding: 3px;
+    display: flex;
+    border-radius: 4px;
+    flex-wrap: wrap; /* Enable wrapping when items exceed the container's width */
+    gap: 5px; /* Space between each selected box */
+    max-width:350px; /* Set the maximum width of the container */
+}
+
+.selected-country {
+    display: flex;
+    flex-direction: row; /* Stack the country name and remove button horizontally */
+    padding: 3px;
+    font-size: 9px; /* Adjust for readability */
+    border: 1px solid #d1caca;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+    color: #1d1d21;
+    background-color: #f3f9fc;
+    
+}
+
+.remove-btn {
+    background: none; /* No default button background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor */
+    margin-left: 2px; /* Space between name and button */
+    font-size: 8px; /* Slightly smaller size */
+    color: rgb(128, 116, 116); /* Red color for remove button */
+}
+
+.remove-btn:hover {
+   color:#fa1909; 
+}
+
+#selectedCountries {
+    display: none;
+}
+
+.selected-country span {
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+
+/* Container for selected regulatory bodies */
+.selected-regulatory {
+    margin-top: 1px;
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+    display: flex;
+    flex-wrap: wrap; /* Enable wrapping when items exceed the container's width */
+    gap: 5px; /* Space between each selected box */
+    max-width:350px; /* Set the maximum width of the container */
+}
+
+/* Individual selected regulatory item */
+.selected-regulatory{
+    display: flex;
+    flex-direction: row; /* Stack the country name and remove button horizontally */
+    padding: 3px;
+    font-size: 9px; /* Adjust for readability */
+    border: 1px solid #d1caca;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+    color: #1d1d21;
+    background-color: #f3f9fc;
+    
+}
+
+/* Styling for the remove button */
+.remove-btn1 {
+    background: none; /* No default button background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor */
+    margin-left: 2px; /* Space between name and button */
+    font-size: 8px; /* Slightly smaller size */
+    color: rgb(128, 116, 116); /* Red color for remove button */
+}
+
+.remove-btn1:hover {
+    color: #fa1909; /* Change to blue on hover */
+}
+
+/* Initially hide the selected regulatory section */
+#selectedRegulatory {
+    display: none;
+}
+
+/* Bold style for span inside selected items */
+.selected-regulatory span {
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+
+
+
+.selected-industry {
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    padding: 3px;
+    display: flex;
+    border-radius: 4px;
+    flex-wrap: wrap; /* Enable wrapping when items exceed the container's width */
+    gap: 5px; /* Space between each selected box */
+    max-width:350px; /* Set the maximum width of the container */
+}
+
+.selected-industry-item {
+    display: flex;
+    flex-direction: row; /* Stack the country name and remove button horizontally */
+    padding: 3px;
+    font-size: 9px; /* Adjust for readability */
+    border: 1px solid #d1caca;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+    color: #1d1d21;
+    background-color: #f3f9fc;
+}
+
+.remove-btn {
+    background: none; /* No default button background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor */
+    margin-left: 2px; /* Space between name and button */
+    font-size: 8px; /* Slightly smaller size */
+    color: rgb(128, 116, 116); /* Red color for remove button */
+}
+
+.remove-btn:hover {
+    color: red;
+}
+
+
+.selected-regulation {
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    padding: 3px;
+    display: flex;
+    border-radius: 4px;
+    flex-wrap: wrap; /* Enable wrapping when items exceed the container's width */
+    gap: 5px; /* Space between each selected box */
+    max-width:550px; /* Set the maximum width of the container */
+}
+
+.selected-regulation-item {
+    display: flex;
+    flex-direction: row; /* Stack the country name and remove button horizontally */
+    padding: 3px;
+    font-size: 9px; /* Adjust for readability */
+    border: 1px solid #d1caca;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+    color: #1d1d21;
+    background-color: #f3f9fc;
+}
+
+.selected-notice {
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    padding: 3px;
+    display: flex;
+    border-radius: 4px;
+    flex-wrap: wrap; /* Enable wrapping when items exceed the container's width */
+    gap: 5px; /* Space between each selected box */
+    max-width:350px; /* Set the maximum width of the container */
+}
+
+.selected-notice-item {
+    display: flex;
+    flex-direction: row; /* Stack the country name and remove button horizontally */
+    padding: 3px;
+    font-size: 9px; /* Adjust for readability */
+    border: 1px solid #d1caca;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+    color: #1d1d21;
+    background-color: #f3f9fc;
+}
+
+
+.selected-penalty {
+    margin-top: 1px;
+    border: 1px solid #ccc;
+    padding: 3px;
+    display: flex;
+    border-radius: 4px;
+    flex-wrap: wrap; /* Enable wrapping when items exceed the container's width */
+    gap: 5px; /* Space between each selected box */
+    max-width:350px; /* Set the maximum width of the container */
+}
+
+.selected-penalty-item {
+    display: flex;
+    flex-direction: row; /* Stack the country name and remove button horizontally */
+    padding: 3px;
+    font-size: 9px; /* Adjust for readability */
+    border: 1px solid #d1caca;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+    box-sizing: border-box;
+    color: #1d1d21;
+    background-color: #f3f9fc;
+}
+
+
+

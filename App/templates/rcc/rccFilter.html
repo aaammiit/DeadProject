@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/index2.css' %}"> -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+ .accordion-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    color: rgb(6, 37, 53);
+    transition: transform 0.3s ease;
+}
+
+.accordion-toggle-btn i {
+    transition: transform 0.3s ease;
+}
+
+.accordion-toggle-btn[aria-expanded="true"] i {
+    transform: rotate(180deg); /* Rotate the arrow when expanded */
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.7s ease-in-out, opacity 0.3s ease;
+    opacity: 0;
+    text-align: left;
+}
+
+.accordion-body {
+    background: none;
+    /* No background color */
+    padding: 0%;
+    font-size: 13px;
+    color: rgb(25, 24, 23);
+    line-height: 1.5;
+    text-align: left;
+}
+
+.accordion-content.open {
+    max-height: 225px; /* Adjust as per your content height */
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.styled-dropdown select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 140px;
+    height: 40px;
+    overflow-y: auto; /* Scroll for large lists */
+  }
+
+  /* Dropdown on Focus */
+  .styled-dropdown select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+
+  /* Filter Row Styles */
+  .filter-options-row {
+    display: flex;
+    flex-direction:row;
+    gap: 20px;
+  }
+
+  .custom-date-picker {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* General Input Styling */
+  select, input[type="number"] {
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100px;
+    height: 40px;
+  }
+
+  select:focus, input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  .graph-container {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            
+        }
+
+        .itemI:hover{
+            color: rgb(68, 116, 131);
+        }
+
+        abbr {
+      text-decoration: dotted underline; /* Underline with dots */
+      cursor: help; /* Indicates the user can hover for more info */
+      color: #0077cc; /* Blue text color */
+      font-weight: bold; /* Bold font */
+    }
+
+    /* Add a hover effect */
+    abbr:hover {
+      text-decoration: solid underline; /* Change to solid underline on hover */
+      color: #00509e; /* Darker blue on hover */
+    }
+    /* Loader styles */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Spin animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Page content hidden initially */
+.content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
+    
+    </style>
+</head>
+
+<body>
+
+    <div id="loader" class="loader"></div>
+
+    <div id="content" class="content" style="display: none;">
+   <!-- The navcontainer html body -->
+    <div class="navcontainer">
+        <div class="logo">
+            <a href="/"><img src="{% static 'images/krimalogo.png' %}" alt="krima"></a>
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="fa-solid fa-briefcase"></i></i>About</a></li>
+                <li><a href="#"><i class="fa-solid fa-envelope"></i></i>Contact</a></li>
+                <li><a href="/logout"><i class="fa-solid fa-lock"></i></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+<!-- The section html body -->
+    <div class="section">
+        <ul id="menu">
+            <li class="icon-box active"><a href="/typeNews1/{{ 'Regulatory Changes & Consultations' }}"
+                    class="nav-link1 lexend-deca-font" data-type="Regulatory Changes & Consultations"><i
+                        class="fas fa-gavel"></i> Consultations & Regulations
+                      </a></li>
+            <li class="icon-box"><a href="/typeNews2/{{ 'Regulatory Guidance' }}" class="nav-link1 lexend-deca-font"
+                    data-type="Regulatory Guidance"><i class="fa-solid fa-book"></i> Regulatory Guidance</a></li>
+            <li class="icon-box "><a href="/typeNews/{{ 'Enforcement Actions' }}" class="nav-link1 lexend-deca-font"
+                    data-type="Enforcement Actions"><i class="fas fa-exclamation-triangle"></i> Penalty Actions</a>
+            </li>
+            <li class="icon-box"><a href="/typeNews5/{{ 'Insolvency' }}" class="nav-link1 lexend-deca-font"
+              data-type="Insolvency"><i class="fa-solid fa-inbox"></i>Insolvency</a>
+      </li>
+            <li class="icon-box"><a href="/typeNews3/{{ 'Speeches' }}" class="nav-link1 lexend-deca-font"
+                    data-type="Speeches"><i class="fas fa-microphone"></i> Speeches</a></li>
+            <li class="icon-box"><a href="/typeNews4/{{ 'Sanctions' }}" class="nav-link1 lexend-deca-font"
+                    data-type="Sanctions"><i class="fas fa-flag"></i> Sanctions</a></li>
+            <li><a href="#" id="toggleFilter" class="lexend-deca-font"><i class="fa-solid fa-filter"></i>Filters</a></li>
+        </ul>
+    </div>
+
+<!-- The dynamic number generate html body -->
+    <section class="our-facts">
+        <div class="count-area-content">
+            <div class="count-digit" data-target="{{lenData|length}}">0</div>
+            <div class="count-title">Number Of Records</div>
+        </div>
+        <div class="count-area-content">
+          <div class="count-digit" data-target="{{regulatory|length}}">0</div>
+          <div class="count-title">Regulatory Bodies</div>
+      </div>
+      <div class="count-area-content">
+          <div class="count-digit" data-target="{{country|length}}">0</div>
+          <div class="count-title">Covered Countries
+      </div>
+    </section>
+    
+    
+<!-- The filter modal html body -->
+    <div class="filter-modal" id="filterContainer">
+        <div class="filter-modal-content">
+            <div class="filter-header">
+                <button class="close-filter" id="closeFilter">&times;</button>
+            </div>
+            <form action="/formFilter1" method="post">
+                {% csrf_token %}
+                <div class="filter-options-row">
+    
+                    <div class="filter-section">
+                        <h3>From Date</h3>
+                        <div class="custom-date-picker">
+                          <!-- Month Dropdown -->
+                          <div class="styled-dropdown">
+                            <select id="fromMonth" name="fromMonth" onchange="updateDays('from')">
+                                <option value="" disabled selected>Month</option>
+                              <option value="01">January</option>
+                              <option value="02">February</option>
+                              <option value="03">March</option>
+                              <option value="04">April</option>
+                              <option value="05">May</option>
+                              <option value="06">June</option>
+                              <option value="07">July</option>
+                              <option value="08">August</option>
+                              <option value="09">September</option>
+                              <option value="10">October</option>
+                              <option value="11">November</option>
+                              <option value="12">December</option>
+                            </select>
+                          </div>
+                    
+                          <!-- Year Dropdown -->
+                          <select id="fromYear" name="fromYear" onchange="updateDays('from')">
+                            <option value="" disabled selected>Year</option>
+                            <script>
+                              const currentYear = new Date().getFullYear();
+                              for (let year = 2020; year <= currentYear; year++) {
+                                document.write(`<option value="${year}">${year}</option>`);
+                              }
+                            </script>
+                          </select>
+                        </div>
+                      </div>
+                    
+                      <!-- To Date Section -->
+                      <div class="filter-section">
+                        <h3>To Date</h3>
+                        <div class="custom-date-picker">
+                          <!-- Month Dropdown -->
+                          <div class="styled-dropdown">
+                            <select id="toMonth" name="toMonth" onchange="updateDays('to')">
+                                <option value="" disabled selected>Month</option>
+                              <option value="01">January</option>
+                              <option value="02">February</option>
+                              <option value="03">March</option>
+                              <option value="04">April</option>
+                              <option value="05">May</option>
+                              <option value="06">June</option>
+                              <option value="07">July</option>
+                              <option value="08">August</option>
+                              <option value="09">September</option>
+                              <option value="10">October</option>
+                              <option value="11">November</option>
+                              <option value="12">December</option>
+                            </select>
+                          </div>
+                    
+                          <!-- Year Dropdown -->
+                          <select id="toYear" name="toYear" onchange="updateDays('to')">
+                            <option value="" disabled selected>Year</option>
+                            <script>
+                              for (let year = 2020; year <= currentYear; year++) {
+                                document.write(`<option value="${year}">${year}</option>`);
+                              }
+                            </script>
+                          </select>
+                        </div>
+                      </div>
+
+                </div>
+    
+                <div class="filter-options-row">
+    
+                    <!-- Country Section -->
+                    <div class="filter-section" id="countryFilter">
+                        <h3>Country (<span id="selectedCount1">0</span> of {{country|length}})</h3>
+                        <input type="text" id="countrySearch" placeholder="Search by Country" oninput="filterCountries()">
+                        
+                        <div class="sub-options" id="countryOptions">
+                            {% for i in country %}
+                            <label class="country-label">
+                                <input type="checkbox" value="{{ i }}" name="country" 
+                                    {% if i in countryData %}checked{% endif %}
+                                    onchange="filterCountries()">  <!-- Added onchange event -->
+                                {{ i }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    
+                        <!-- Selected countries section -->
+                        <div class="selected-countries" id="selectedCountries" style="display: none;">
+                            <!-- Selected countries will appear here -->
+                        </div>
+                    </div>
+                    
+    
+                    <div class="filter-section" id="regBodyFilter">
+                        <h3>Regulatory Body (<span id="selectedCount">0</span> of {{regulatory|length}})</h3>
+                        <input 
+                            type="text" 
+                            id="regBodySearch" 
+                            placeholder="Search by Regulatory Body" 
+                            oninput="filterRegulatory()"
+                        >
+                        <div class="sub-options" id="regBodyOptions">
+                            {% for i in regulatory %}
+                            <label class="regulatory-label">
+                                <input 
+                                    type="checkbox" 
+                                    value="{{ i }}" 
+                                    name="regulatory" 
+                                    {% if i in regulatoryData %}checked{% endif %} 
+                                    onchange="filterRegulatory()"
+                                >
+                                {{ i }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="selected-regulatory" id="selectedRegulatory" style="display: none;">
+                            <!-- Selected regulatory bodies will appear here -->
+                        </div>
+                    </div>
+                    
+    
+                    <div class="filter-section" id="industryFilter">
+                        <h3>Industry (<span id="selectedIndustryCount">0</span> of {{industry|length}})</h3>
+                        <input 
+                            type="text" 
+                            id="industrySearch" 
+                            placeholder="Search by Industry" 
+                            oninput="filterIndustry()"
+                        >
+                        <div class="sub-options" id="industryOptions">
+                            {% for i in industry %}
+                            <label class="industry-label">
+                                <input 
+                                    type="checkbox" 
+                                    value="{{ i }}" 
+                                    name="industry" 
+                                    {% if i in industryData %}checked{% endif %} 
+                                    onchange="filterIndustry()"
+                                >
+                                {{ i }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="selected-industry" id="selectedIndustry" style="display: none;">
+                            <!-- Selected industries will appear here -->
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+    
+                <hr style="color: black;">
+    
+                <div class="filter-options-row">
+    
+                    <div class="filter-section" id="NoticeFilter">
+                        <h3>Notice Type (<span id="selectedNoticeCount">0</span> of {{ noticeType|length }})</h3>
+                        <input 
+                            type="text" 
+                            placeholder="Search by Notice Type" 
+                            id="NoticeSearch" 
+                            oninput="filterNotice()"
+                        >
+                        <div class="sub-options" id="NoticeOptions">
+                            {% for i in noticeType %}
+                            {% if i is not none %}
+                            <label class="notice-label">
+                                <input 
+                                    type="checkbox" 
+                                    value="{{ i }}" 
+                                    name="noticeType" 
+                                    {% if i in noticeData %}checked{% endif %} 
+                                    onchange="filterNotice()"
+                                >
+                                {{ i }}
+                            </label>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="selected-notice" id="selectedNotice" style="display: none;">
+                             
+                            <!-- Selected notices will appear here -->
+                        </div>
+                    </div>
+                    <div class="filter-section" id="regulationFilter">
+                        <h3>Regulation (<span id="selectedRegulationCount">0</span> of {{regulation|length}})</h3>
+                        <input 
+                            type="text" 
+                            placeholder="Search by Regulation" 
+                            id="regulationSearch" 
+                            oninput="filterRegulation()"
+                        >
+                        <div class="sub-options" id="regulationOptions">
+                            {% for i in regulation %}
+                            {% if i is not none %}
+                            <label class="regulation-label">
+                                <input 
+                                    type="checkbox" 
+                                    value="{{ i }}" 
+                                    name="regulation" 
+                                    {% if i in regulationData %}checked{% endif %} 
+                                    onchange="filterRegulation()"
+                                >
+                                {{ i }}
+                            </label>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="selected-regulation" id="selectedRegulation" style="display: none;">
+                            
+                            <!-- Selected regulations will appear here -->
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="filter-footer">
+                    <!-- <a href="/createFilter" class="filter-apply" style="text-decoration: none; color: rgb(6, 37, 53);" class="atag">Create Filter</a> -->
+                    <button class="filter-apply" id="applyFilters" type="submit">Apply Filters</button>
+                    
+                    
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- The article section html body -->
+    <div class="d-flex bd-highlight" style="padding: 5px;">
+        <div class="p-2 w-100 bd-highlight" id="card-list">
+            <div class="d-flex gap-5">
+              {%if countryName%}
+              <p style="font-weight: 600;color: #0d056e;">{{countryName}} -</p>
+              {%else%}
+              <p style="font-weight: 600;color: #0d056e;" >Latest Actions</p>
+              {%endif%}
+            </div>
+            <!-- News cards -->
+            {% for i in data %}
+<div class="card mt-1 filterable-card" data-title="{{ i.title }}" data-country="{{ i.country }}" data-regulatory="{{ i.regulatory }}" style="display: {% if forloop.counter > 10 %}none{% else %}block{% endif %}">
+    <div class="card-body border-light">
+        <h5 class="card-title " style="font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+            <a href="{{i.URL}}" style="text-decoration: none; color: rgb(6, 37, 53);" target="_blank" class="atag lexend-deca-font">{{ i.New_Title }}</a>
+            <button class="accordion-toggle-btn" type="button" aria-expanded="false">
+                <i class="fas fa-chevron-down"></i> <!-- Font Awesome Chevron Icon -->
+            </button>
+        </h5>
+        <div class="d-flex mt-1" style="gap: 10px;">
+            <p class="card-text lexend-deca-font1" style="font-size: 13px;">{{ i.Date }}</p>
+            <p class="card-text lexend-deca-font1" style="font-size: 13px; margin: 0;">|</p>
+            <p class="card-text lexend-deca-font1" style="font-size: 13px;">{{ i.rbCountry }}</p>
+            <p class="card-text lexend-deca-font1" style="font-size: 13px; margin: 0;">|</p>
+            <p class="card-text lexend-deca-font1" style="font-size: 13px;">{{ i.KRIMA_type }}</p>
+        </div>
+        <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued by :
+            <a href="" style="text-decoration: none;" class="atag lexend-deca-font1 text-dark">{{ i.Regulatory }}</a>
+        </p>
+        {%load custom_filters%}
+        
+        <div class="accordion-content">
+            <div class="accordion-body">
+              {% if i.KRIMA_imposed_penalty_USD %}
+              <div class="d-flex" style="gap:10px;">
+               {% if i.Company_Name %}
+               <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued To : {{ i.Company_Name }}</p>
+               {% endif %}
+               <p class="card-text lexend-deca-font1" style="font-size: 13px; margin: 0;">|</p>
+               <p class="card-text lexend-deca-font1" style="font-size: 13px; font-weight: 550;">Total Fine :
+                   {{i.KRIMA_currency}} {{ i.KRIMA_imposed_penalty_USD }}
+                   {%if i.KRIMA_civil_penalty_usd and i.KRIMA_disgorgement_restitution_USD and i.KRIMA_prejudgement_interest_USD  %}
+                   <abbr title="{{i.KRIMA_civil_penalty_usd|format_large_number}} (Penalty) + {{i.KRIMA_disgorgement_restitution_USD|format_large_number}} (Disgorgement Restitution) + {{i.KRIMA_prejudgement_interest_USD|format_large_number}} (Prejudgement Interest)">
+                       <i class="fas fa-info-circle itemI"></i>
+                   </abbr>
+                   {%elif i.KRIMA_civil_penalty_usd and i.KRIMA_disgorgement_restitution_USD  %}
+                   <abbr title="{{i.KRIMA_civil_penalty_usd|format_large_number}} (Penalty) + {{i.KRIMA_disgorgement_restitution_USD|format_large_number}} (Disgorgement Restitution)">
+                       <i class="fas fa-info-circle itemI"></i>
+                   </abbr>
+                   {%elif i.KRIMA_civil_penalty_usd and i.KRIMA_prejudgement_interest_USD  %}
+                   <abbr title="{{i.KRIMA_civil_penalty_usd|format_large_number}} (Penalty) + {{i.KRIMA_prejudgement_interest_USD|format_large_number}} (Prejudgement Interest)">
+                       <i class="fas fa-info-circle itemI"></i>
+                   </abbr>
+                   {%elif i.KRIMA_civil_penalty_usd%}
+                   <abbr title="{{i.KRIMA_civil_penalty_usd|format_large_number}} (Penalty) ">
+                       <i class="fas fa-info-circle itemI"></i>
+                   </abbr>
+                   {%elif i.KRIMA_prejudgement_interest_USD%}
+                   <abbr title="{{i.KRIMA_prejudgement_interest_USD|format_large_number}} (Prejudgement Interest) ">
+                       <i class="fas fa-info-circle itemI"></i>
+                   </abbr>
+                   {%else%}
+                   <abbr title="{{i.KRIMA_disgorgement_restitution_USD|format_large_number}} (Disgorgement Restitution) ">
+                       <i class="fas fa-info-circle itemI"></i>
+                   </abbr>
+                   {%endif%}
+               </p>
+           </div>
+           {%else%}
+           {% if i.Company_Name %}
+               <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued To : {{ i.Company_Name }}</p>
+               {% endif %}
+           {% endif %}
+        
+                <div class="d-flex" style="gap: 15px;">
+                    <p class="card-text lexend-deca-font1" style="font-size: 13px;">
+                        <span style="color: rgb(6, 37, 53); font-size: 14px;font-weight: 500;">Industry :</span> {{ i.Krima_Area_of_activity_or_service }}
+                    </p>
+                    <p class="card-text lexend-deca-font1 text-dark" style="font-size: 13px; margin: 0;">|</p>
+                    <p class="card-text lexend-deca-font1" style="font-size: 13px;">
+                        <span style="color: rgb(6, 37, 53); font-size: 14px;font-weight: 500;">Regulation :</span> {{ i.Krima_Area_of_regulation }}
+                    </p>
+                </div>
+                <p class="card-text lexend-deca-font2" style="font-size: 13px;">
+                    <span style="color: rgb(6, 37, 53); font-size: 14px;font-weight: 500;"></span> {{ i.Summary }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<h5 class="card-title"  style="font-size: 14px; font-weight: 500; text-align: center;">
+    <a href="javascript:void(0);" id="load-more-card" style="text-decoration: none; color: rgb(10, 8, 104);" class="btn btn-outline-primary mt-1">load More</a>
+  </h5>
+
+        </div>
+        <!-- related News cards -->
+        <div class="p-2 flex-shrink-1 bd-highlight ">  
+                <p style="font-weight: 600;color: #0d056e;" class="mt-1" >Recent Updates </p>
+            {%for i in rangedate%}
+            <div class="card" style="width: 18rem;">
+    
+                <div class="card-body" >
+                    <h5 class="card-title" style="font-size: 13px; font-weight: 700;"><a href="{{i.URL}}" style="text-decoration: none;color: rgb(6, 37, 53);" class="atag">{{ i.New_Title }} </a></h5>
+                </div>
+              </div>
+              {%endfor%}
+
+              <p style="font-weight: 600;color: #0d056e;" class="mt-2 text-dark">Related Regulatory Bodies  </p>
+<div id="reg-list">
+  {% for reg, count in regLen.items %}
+  <div class="card reg-item" style="width: 18rem; display: {% if forloop.counter > 5 %}none{% else %}block{% endif %};">
+    <div class="card-body p-1">
+      <h5 class="card-title" style="font-size: 13px; font-weight: 650;">
+        <a href="/findrccReg/{{reg}}" style="text-decoration: none; color: rgb(90, 96, 99);" class="atag">
+          {{ reg }} 
+        </a>
+      </h5>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<h5 class="card-title"  style="font-size: 13px; font-weight: 500; text-align: center;">
+  <a href="javascript:void(0);" id="load-more-reg" style="text-decoration: none; color: rgb(10, 8, 104);" class="atag">More</a>
+</h5>
+
+
+              <p style="font-weight: 600;color: #0d056e;" class="mt-2 text-dark">Related Country News 
+              </p>
+              <div id="contry-list">
+                {% for country, count in cuntryLen.items %}
+                <div class="card contry-item" style="width: 18rem; display: {% if forloop.counter > 5 %}none{% else %}block{% endif %};">
+                  <div class="card-body p-1">
+                    <h5 class="card-title" style="font-size: 13px; font-weight: 650;">
+                      <a href="/findrccCountry/{{country}}/{{country}}" style="text-decoration: none; color: rgb(90, 96, 99);" class="atag">
+                        {{ country }} 
+                      </a>
+                    </h5>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <h5 class="card-title" style="font-size: 13px; font-weight: 500; text-align: center;">
+                <a href="javascript:void(0);" id="load-more-country" style="text-decoration: none; color: rgb(10, 8, 104);" class="atag">More</a>
+              </h5>
+            
+        </div>    
+      </div>
+
+
+
+    </div>
+
+      <script>
+
+        // penality range js
+    function updatePenaltyValueRadio(selectedRadio) {
+          const valueDisplay = document.getElementById('penaltyValue'); // Get the penalty value display
+
+          // Determine the range based on the selected radio value
+          const ranges = [
+              "",
+              "Above $10M",   // Value 1
+              "$10M - $100M",     // Value 2
+              "$100M - $1000M",   // Value 3
+              "Above $10000M"      // Value 4
+          ];
+
+          // Update the displayed range
+          valueDisplay.textContent = ranges[selectedRadio.value - 1];
+}
+
+
+// Wait until the page and resources are fully loaded
+window.onload = function () {
+    // Simulate a delay (2-3 seconds)
+    setTimeout(() => {
+      // Hide the loader
+      const loader = document.getElementById("loader");
+      loader.style.display = "none";
+
+      // Show the content with a fade-in effect
+      const content = document.getElementById("content");
+      content.style.display = "block";
+      content.style.opacity = 1;
+    }, 1000); // 2 seconds delay
+};
+
+
+// accordion 
+const toggleButtons = document.querySelectorAll('.accordion-toggle-btn');
+
+toggleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Get the associated accordion content
+        const content = button.closest('.card-body').querySelector('.accordion-content');
+
+        // Toggle the "open" class
+        if (content.classList.contains('open')) {
+            content.classList.remove('open');
+            button.setAttribute('aria-expanded', 'false');
+        } else {
+            content.classList.add('open');
+            button.setAttribute('aria-expanded', 'true');
+        }
+    });
+});
+
+
+
+// load more compnay cuntry and reg
+document.addEventListener("DOMContentLoaded", function () {
+  function setupLoadMore(containerClass, buttonId, initialVisible, increment) {
+    const items = document.querySelectorAll(containerClass);
+    const loadMoreButton = document.getElementById(buttonId);
+
+    if (!items.length || !loadMoreButton) return;
+
+    let visibleCount = initialVisible;
+
+    loadMoreButton.addEventListener("click", function () {
+      let displayed = 0;
+
+      // Show hidden items incrementally
+      items.forEach((item, index) => {
+        if (index >= visibleCount && displayed < increment) {
+          item.style.display = "block";
+          displayed++;
+        }
+      });
+
+      visibleCount += increment;
+
+      // Hide the button if all items are visible
+      if (visibleCount >= items.length) {
+        loadMoreButton.style.display = "none";
+      }
+    });
+  }
+
+  // Setup for Related Companies
+  setupLoadMore(".company-item", "load-more", 5, 2);
+
+  // Setup for Related Countries
+  setupLoadMore(".contry-item", "load-more-country", 5, 2);
+
+  // Setup for Related Regulatory Bodies
+  setupLoadMore(".reg-item", "load-more-reg", 5, 2);
+
+  
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+        const loadMoreButton = document.getElementById("load-more-card");
+        const cards = document.querySelectorAll(".filterable-card");
+        let visibleCards = 10; // Initial number of visible cards
+        const increment = 5;  // Number of cards to show on each "Load More"
+
+        loadMoreButton.addEventListener("click", function () {
+            let count = 0;
+
+            for (let i = visibleCards; i < cards.length && count < increment; i++) {
+                cards[i].style.display = "block";
+                count++;
+            }
+
+            visibleCards += count;
+
+            // Hide the "Load More" button if all cards are visible
+            if (visibleCards >= cards.length) {
+                loadMoreButton.style.display = "none";
+            }
+        });
+    });
+</script>
+
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="{%static 'js/filter.js'%}"></script>
+<script src="{%static 'js/home.js'%}"></script>
+</body>
+
+</html>

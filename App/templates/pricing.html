@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription & Pricing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(45deg, #3a4f56, #2e2751, #3d3428);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 80px; /* To prevent content from overlapping the fixed navbar */
+        }
+        .navcontainer {
+            background-color:transparent;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 50px;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar ul li {
+            display: inline;
+        }
+        .navbar ul li a {
+            display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    /* Space between icon and text */
+    text-decoration: none !important;
+    color: #dcdbdb !important;
+    /* Improved text color */
+    background-color:transparent !important;
+    /* Soft gray background */
+    font-size: 14px !important;
+    /* Font size slightly smaller */
+    font-weight: bold !important;
+    padding: 8px 15px !important;
+    /* Padding for better spacing */
+    border-radius: 5px !important;
+    /* Rounded corners */
+    border: 1px solid rgb(152, 142, 142) !important;
+    /* No visible border by default */
+    transition: all 0.3s ease-in-out !important;
+    /* Smooth hover effects */
+        }
+        .navbar ul li a:hover {
+            color: #e2b01a !important;
+    /* White text color on hover */
+    background-color: #044679 !important;
+    /* Blue background on hover */
+    border: 1px solid #559fd8 !important;
+    /* Blue border on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    /* Subtle shadow */
+    transform: scale(1.05) !important;
+    /* Slight scaling effect */
+        }
+
+        .navbar ul li a i {
+    font-size: 16px !important;
+    /* Icon size */
+    color: #74c0fc !important;
+    /* Initial color for icons */
+    transition: color 0.3s ease-in-out !important;
+}
+
+.navbar ul li a:hover i {
+    color: #ffcc33 !important;
+    /* Change icon color on hover */
+}
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #acdd0c;
+        }
+        .plans {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .plan {
+            background: transparent;
+            color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 300px;
+            transition: transform 0.3s ease;
+        }
+        .plan:hover {
+            transform: translateY(-10px);
+        }
+        .plan h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #acdd0c;
+        }
+        .price {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .features li {
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #2ab544;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #005bb5;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="navcontainer">
+        <div class="logo">
+            <a href="/"><img src="{% static 'images/krimalogo.png' %}" alt="krima"></a>
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="/"><i class="fa-solid fa-briefcase"></i>Home</a></li>
+                <li><a href="#"><i class="fa-solid fa-user"></i> Profile</a></li>
+                <li><a href="/contact"><i class="fa-solid fa-envelope"></i></i>Contact</a></li>
+                <li><a href="/logout"><i class="fa-solid fa-lock"></i></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="title">Choose Your Plan</h1>
+        <div class="plans">
+            <!-- India Specific Plan -->
+            <div class="plan">
+                <h2>India Specific</h2>
+                <p class="price">$9/month</p>
+                <ul class="features">
+                    <li>✔ Indian States</li>
+                    <li>✔ Indian Regulatory Bodies</li>
+                    <li>✔ Indian Regulation Areas</li>
+                    <li>✔ Help & Support</li>
+                </ul>
+                <button class="btn" onclick="payWithRazorpay(900)">Subscribe</button>
+            </div>
+
+            <!-- Global Plan -->
+            <div class="plan">
+                <h2>Global</h2>
+                <p class="price">$29/month</p>
+                <ul class="features">
+                    <li>✔ Global Countries</li>
+                    <li>✔ Global Regulatory Bodies</li>
+                    <li>✔ Global Regulation Areas</li>
+                    <li>✔ Help & Support</li>
+                </ul>
+                <button class="btn" onclick="payWithRazorpay(2900)">Subscribe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Razorpay Integration -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        function payWithRazorpay(amount) {
+            var options = {
+                key: "rzp_test_DmsiQJWNQbXlww", // Replace with your Razorpay Key ID
+                amount: amount*88, // Razorpay expects amount in paise
+                currency: "INR",
+                name: "KrimaSolutions",
+                description: "Subscription Payment",
+                handler: function (response) {
+                    alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+                    // Optional: Redirect to success page or call a backend API
+                    window.location.href = "/success";
+                },
+                prefill: {
+                    name: "John Doe",
+                    email: "johndoe@example.com",
+                    contact: "9999999999"
+                },
+                theme: {
+                    color: "#F34256"
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        }
+    </script>
+</body>
+</html>

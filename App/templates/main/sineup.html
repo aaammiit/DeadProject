@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Create Account</title>
+    <link rel="stylesheet" href="{% static 'css/index2.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .extra-options1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border-radius: 8px;
+            width: 300px;
+            height: 50px;
+            margin: 1.2rem auto;
+            box-shadow: 0 7px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .extra-options1 a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f2efef;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .extra-options1 a:hover {
+            color: #7a7424;
+            border-color: #c1791a;
+            background-color: linear-gradient(45deg, #3a4f56, #2e2751, #3d3428);
+        }
+
+        .extra-options1 .google-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group input:not(:placeholder-shown) {
+            border-bottom-color: #3a86ff;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #aaa;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 12px;
+            color: #3a86ff;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #a0bd20;
+        }
+
+        .input-group i:hover {
+            color: #3a86ff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <ul>
+            <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="#"><i class="fa-solid fa-briefcase"></i></i>About</a></li>
+            <li><a href="/contact"><i class="fa-solid fa-envelope"></i>Contact</a></li>
+        </ul>
+    </nav>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="container">
+       
+        <form id="loginForm" class="login-form" method="post">
+            {%csrf_token%}
+            <h2><img src="{% static 'images/krimalogo.png' %}" alt="Krima Logo"></h2>
+
+            <div class="input-group">
+                <input type="email" id="email" placeholder=" " required name="username">
+                <label for="email">Email</label>
+                <i class="fas fa-envelope"></i>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder=" " required name="password">
+                <label for="password">Password</label>
+                <i class="fas fa-lock"></i>
+                <i class="fas fa-eye" id="togglePassword"></i>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder=" " required name="cpassword">
+                <label for="confirmPassword">Confirm Password</label>
+                <i class="fas fa-lock"></i>
+                <i class="fas fa-eye" id="toggleConfirmPassword"></i>
+            </div>
+
+            <button type="submit">Create Account</button>
+            
+        <div class="extra-options">
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <p style="color: red;font-weight: 600;">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: rgb(249, 5, 5);"></i> {{ message }}
+                    </p>
+                {% elif message.tags == 'success' %}
+                    <p style="color: green;font-weight: 600;">
+                        <i class="fa-solid fa-check" style="color: #12e60f;"></i> {{ message }}
+                    </p>
+                {% else %}
+                    <p>
+                        {{ message }}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+        </div>
+
+            <div class="extra-options">
+                <a href="login">Login Account</a>
+                <a href="password_reset/">Forgot Password?</a>
+            </div>
+            <div class="extra-options1">
+                <a href="password_reset/">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" 
+                         alt="Google Logo" 
+                         class="google-logo">
+                    Sign up with <span> &nbsp;Google</span>
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const passwordInput = document.getElementById("password");
+            const confirmPasswordInput = document.getElementById("confirmPassword");
+            const togglePassword = document.getElementById("togglePassword");
+            const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+            const form = document.getElementById("loginForm");
+
+            // Password toggle
+            togglePassword.addEventListener("click", () => {
+                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                passwordInput.setAttribute("type", type);
+                togglePassword.classList.toggle("fa-eye");
+                togglePassword.classList.toggle("fa-eye-slash");
+            });
+
+            // Confirm password toggle
+            toggleConfirmPassword.addEventListener("click", () => {
+                const type = confirmPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+                confirmPasswordInput.setAttribute("type", type);
+                toggleConfirmPassword.classList.toggle("fa-eye");
+                toggleConfirmPassword.classList.toggle("fa-eye-slash");
+            });
+
+            form.addEventListener("submit", (e) => {
+
+                // Reset styles
+                passwordInput.style.borderBottomColor = "";
+                confirmPasswordInput.style.borderBottomColor = "";
+
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    passwordInput.style.borderBottomColor = "red";
+                    confirmPasswordInput.style.borderBottomColor = "red";
+                    return;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
