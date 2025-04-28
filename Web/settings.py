@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9-4d3cckk#t--%ozb6_#!+3tj$z^2qsvddch-seu@jo=pypm87
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -124,6 +124,11 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+ ]
+STATIC_ROOT = "krima"
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' 
