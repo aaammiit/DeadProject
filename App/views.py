@@ -51,6 +51,7 @@ def process_uploaded_database_files():
                         rbContinent=record.get("rbContinent"),
                         rbState=record.get("rbState"),
                         Regulatory=record.get("Regulatory"),
+                        RegFullName=record.get("rbFullname"),
                         Date=parse_date(record.get("Date")),
                         Date1=parse_date(record.get("Date_1")),
                         Title=record.get("Title"),

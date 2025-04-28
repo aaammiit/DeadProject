@@ -32,7 +32,7 @@ urlpatterns = [
 
     # password reset url and auth_views
     path('password_reset/',
-         auth_views.PasswordResetView.as_view(template_name='password_reset/reset.html'),
+         auth_views.PasswordResetView.as_view(template_name='password_reset/reset.html',email_template_name='password_reset/reset_email.html',),
          name='password_reset'),
     
     # password reset email sent done url and auth_views

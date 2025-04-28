@@ -23,5 +23,6 @@ urlpatterns = [
     path('formFilter3',v.speechfilterData),
     path('findspeechCountry/<str:cntry>',v.findSpeechCountry),
     path('findspeechReg/<str:reg>',v.findSpeechReg),
+    path('speechrbProfile/<int:id>',v.speechrbProfile),
     
 ]

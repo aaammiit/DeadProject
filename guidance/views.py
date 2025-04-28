@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from App.models import *
 from enforceApp.views import apply_filters
 import pandas as pd
 from datetime import datetime,timedelta,date
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.templatetags.static import static
+import json
 # Create your views here.
 
 
@@ -16,6 +19,7 @@ def fetch_and_process_data():
     )
     cuntryLen={}
     regLen={}
+    rbData={}
     try:
         # Fetch all data from the database
         filedata = krimaCompanyData.objects.all()
@@ -25,6 +29,7 @@ def fetch_and_process_data():
                 # Filter by enforcement data type
                 if getattr(item, 'KRIMA_type', '') in rccData:
                     filetrData.append(item)
+                    rbData[item.rbID] = item.RegFullName
 
                     # Populate sets with unique values
                     if getattr(item, 'rbCountry', ''):
@@ -56,7 +61,7 @@ def fetch_and_process_data():
             if hasattr(item, 'Regulatory') and item.Regulatory:
                 regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
 
-        return filetrData, rangedate, country, regulatory, industry, regulation_set,cuntryLen,regLen
+        return filetrData, rangedate, country, regulatory, industry, regulation_set,cuntryLen,regLen,rbData
 
     except Exception as e:
         print(f"Error in enforceType: {e}")
@@ -70,6 +75,7 @@ def guidanceType(request,typ):
     )
     cuntryLen = {}
     regLen = {}
+    rbData={}
     
     try:
         # Fetch all data from the database
@@ -84,6 +90,7 @@ def guidanceType(request,typ):
                     and item.KRIMA_type in ['Regulatory Guidance']
                 ):
                     guid_data.append(item)
+                    rbData[item.rbID] = item.RegFullName 
 
                     # Populate sets with unique values
                     if hasattr(item, 'rbCountry') and item.rbCountry:
@@ -121,6 +128,7 @@ def guidanceType(request,typ):
                 'data': Frontdata,
                 'rangedate': rangedate,
                 'lenData': guid_data,
+                'rbData':rbData,
                 'country': sorted(country),
                 'regulatory': sorted(regulatory),
                 'industry': sorted(industry),
@@ -175,7 +183,7 @@ def filter_by_date_range(filtered_data, fromMonth, fromYear, toMonth, toYear):
 def guidfilterData(request):
     try:
         # Fetch and process data
-        filetrData, rangedate, country, regulatory, industry, regulation_set, cuntryLen, regLen = fetch_and_process_data()
+        filetrData, rangedate, country, regulatory, industry, regulation_set, cuntryLen, regLen,rbData = fetch_and_process_data()
 
         if request.method == 'POST':
             # Extract filter inputs
@@ -212,7 +220,7 @@ def guidfilterData(request):
                     'rangedate': rangedate,
                     'country': sorted(country),
                 'regulatory': sorted(regulatory),
-                
+                'rbData':rbData,
                 'industry': sorted(industry),
                 'regulation': sorted(regulation_set),
                     'countryData': selected_country,
@@ -231,7 +239,7 @@ def guidfilterData(request):
 @login_required
 def findguidCountry(request,cntry):
     findcountry=cntry
-    filetrData, rangedate, country, regulatory, industry, regulation_set, cuntryLen, regLen = fetch_and_process_data()
+    filetrData, rangedate, country, regulatory, industry, regulation_set, cuntryLen, regLen,rbData = fetch_and_process_data()
 
     contryData=[]
     for i in filetrData:
@@ -243,6 +251,7 @@ def findguidCountry(request,cntry):
                 'data': contryData,  # Adjust pagination if necessary
                     'lenData':filetrData,
                     'rangedate': rangedate,
+                    'rbData':rbData,
                     'country': sorted(country),
                 'regulatory': sorted(regulatory),
                 'industry': sorted(industry),
@@ -255,12 +264,14 @@ def findguidCountry(request,cntry):
 @login_required
 def findguidReg(request,reg):
     findreg=reg
-    filetrData, rangedate, country, regulatory, industry, regulation_set, cuntryLen, regLen = fetch_and_process_data()
+    regName=set()
+    filetrData, rangedate, country, regulatory, industry, regulation_set, cuntryLen, regLen,rbData = fetch_and_process_data()
     
     regData=[]
     for i in filetrData:
         if i.Regulatory == findreg:
             regData.append(i)
+            regName.add(i.RegFullName)
     regData = sorted(regData, key=lambda x: x.Date, reverse=True)
         
     return render(request, 'guidance/guidCountryRagPage.html', {
@@ -274,5 +285,111 @@ def findguidReg(request,reg):
                 'regulation': sorted(regulation_set),
                 'cuntryLen':cuntryLen,
                 'regLen':regLen,
-                'countryName':findreg
+                'regName':regName,
+                'rbData':rbData,
             })
+
+
+def normalize(name):
+    return name.lower().replace(" ", "_").replace("-", "_")
+
+def get_flag_path(country_name):
+    if not country_name:
+        return ''
+    
+    flag_dir = os.path.join(settings.BASE_DIR, 'App', 'static', 'images', 'Flags')
+
+    try:
+        for file_name in os.listdir(flag_dir):
+            name, ext = os.path.splitext(file_name)
+            if name.lower() == country_name.lower() and ext.lower() in ['.png', '.jpg', '.jpeg', '.svg', '.webp']:
+                relative_path = os.path.join('images', 'Flags', file_name)
+                return static(relative_path)
+    except FileNotFoundError:
+        return ''
+
+    return ''
+
+def get_logo_path(rbid):
+    for ext in ['png', 'jpg', 'jpeg', 'svg', 'webp']:
+        relative_path = f"images/RB_Logos/{rbid}.{ext}"
+        absolute_path = os.path.join(settings.BASE_DIR, 'App', 'static', relative_path)
+        if os.path.exists(absolute_path):
+            return static(relative_path)
+    return ''
+
+@login_required
+def guidRb(request, id):
+    rbid = str(id)
+    data = []
+    AGrowth = None
+    cGpd = None
+    gdp_data = []
+    country_name = None
+
+    # Load profile data
+    profile_path = os.path.join(settings.BASE_DIR, 'App', 'RbData', '196_RB_Profiles.json')
+    with open(profile_path, 'r') as file:
+        fileData = json.load(file)
+
+    # Check if rbid exists in fileData
+    for i in fileData:
+        if i['rbID'] == rbid:
+            data.append(i)
+            country_name = i.get('rbCountry')
+            break
+
+    # Redirect if rbid not found
+    if not data:
+        return redirect(request.META.get('HTTP_REFERER', '/typeNews/Regulatory%20Guidance'))
+ # Redirect back or to home
+
+    # Get logo path
+    logo_path = get_logo_path(rbid)
+
+    # Get flag path
+    flag_path = get_flag_path(country_name) if country_name else ''
+
+    if country_name:
+        norm_name = normalize(country_name)
+
+        # Load GDP-related data
+        with open(os.path.join(settings.BASE_DIR, 'App', 'RbData', 'growth.json'), 'r') as f:
+            growth_json = json.load(f)
+
+        with open(os.path.join(settings.BASE_DIR, 'App', 'RbData', 'annualGrowth.json'), 'r') as f:
+            annual_json = json.load(f)
+
+        with open(os.path.join(settings.BASE_DIR, 'App', 'RbData', 'CountryGDP.json'), 'r') as f:
+            country_gdp_json = json.load(f)
+
+        # Extract gdp_data
+        for entry in growth_json:
+            if normalize(entry.get("Country_Name")) == norm_name:
+                expected_years = ['2019', '2020', '2021', '2022', '2023']
+                gdp_data = [entry.get(year) for year in expected_years]
+                break
+
+        # Extract AGrowth
+        for entry in annual_json:
+            if normalize(entry.get("Country_Name")) == norm_name:
+                AGrowth = entry.get('2023')
+                break
+
+        # Extract cGpd
+        for entry in country_gdp_json:
+            if normalize(entry.get("Country_Name")) == norm_name:
+                cGpd = entry.get('2023_USD')
+                break
+
+    # Attach GDP & growth to profile data
+    data[0]['GDP_2023_USD'] = cGpd
+    data[0]['Annual_Growth_2023'] = AGrowth
+
+    return render(request, 'guidance/guidRb.html', {
+        'data': data,
+        'logo': logo_path,
+        'flag': flag_path,
+        'gdp_data': gdp_data,
+        'country_name': country_name,
+    })

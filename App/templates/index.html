@@ -165,7 +165,7 @@
             <li class="icon-box"><a href="/typeNews2/{{ 'Regulatory Guidance' }}" class="nav-link1 lexend-deca-font"
                     data-type="Regulatory Guidance"><i class="fa-solid fa-book"></i> Regulatory Guidance</a></li>
             <li class="icon-box"><a href="/typeNews/{{ 'Enforcement Actions' }}" class="nav-link1 lexend-deca-font"
-                    data-type="Enforcement Actions"><i class="fas fa-exclamation-triangle"></i> Enforcement Actions</a>
+                    data-type="Enforcement Actions"><i class="fas fa-exclamation-triangle"></i> Penalty Actions</a>
             </li>
             <li class="icon-box"><a href="/typeNews5/{{ 'Insolvency' }}" class="nav-link1 lexend-deca-font"
                 data-type="Insolvency"><i class="fa-solid fa-inbox"></i>Insolvency</a>
@@ -466,16 +466,7 @@
                     </div>
                     
                 </div>
-    {%if user.is_authenticated%}
-                <div class="filter-footer">
-                    <button class="filter-apply" style="color: chocolate;">Save Filters</button>
-                    <button class="filter-apply" id="applyFilters" type="submit">Apply Filters</button>
-                </div>
-    {%else%}
-    <div class="filter-footer">
-        <a class="filter-apply" href="login" style="color: chocolate;text-decoration: none;" disabled>Save Filters</a>
-    </div>
-    {%endif%}
+    
             </form>
         </div>
     </div>
@@ -561,15 +552,7 @@
                 </div>
             </div>
             {% endfor %}
-            {%if user.is_authenticated%}
-            <div class="text-center mt-2">
-                <a href="packages" class="btn btn-outline-primary ">More Articles</a>
-            </div>
-            {%else%}
-            <div class="text-center mt-2">
-                <a href="login" class="btn btn-outline-primary ">More Articles</a>
-            </div>
-            {%endif%}
+           
 
         </div>
         <!-- related News cards -->

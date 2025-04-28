@@ -1,0 +1,76 @@
+.fil:hover{
+    color: rgb(201, 62, 11) !important;
+}
+.fil1:hover{
+    color: rgb(11, 143, 30) !important;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+#table-view {
+    width: 100%; /* Ensure table fits within the parent */
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Add horizontal scroll only if content overflows */
+}
+
+.table-container table {
+    min-width: 1000px; /* Adjust based on the expected content */
+    border-collapse: collapse; /* Keep spacing clean */
+    
+}
+.custom-table {
+    width: auto;
+    min-width: 100%;
+    white-space: nowrap;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    white-space: nowrap;
+  }

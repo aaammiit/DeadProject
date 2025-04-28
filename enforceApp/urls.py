@@ -24,5 +24,6 @@ urlpatterns = [
     path('findCountry/<str:cntry>',v.findCountry),
     path('findCompany/<str:cmpny>',v.findCompany),
     path('findReg/<str:reg>',v.findReg),
+    path('rbProfile/<int:id>',v.enforceRb),
     
 ]

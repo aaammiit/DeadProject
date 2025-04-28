@@ -26,4 +26,5 @@ urlpatterns = [
     path('',include('spech.urls')),
     path('',include('santion.urls')),
     path('',include('insolvency.urls')),
+    
 ]

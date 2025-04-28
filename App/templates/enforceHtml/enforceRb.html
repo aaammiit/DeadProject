@@ -1,0 +1,570 @@
+{%load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%for i in data%}
+    <title>{{i.RB_Acronym}}</title>
+    {%endfor%}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+           
+            /* background-color: #070606; */
+            color: #070606;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 5px;
+            border-radius: 10px;
+
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .header .reg {
+    max-width: 15%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+    background-color: transparent;
+}
+        .header .flag {
+            max-width: 22%;
+            height: auto;
+        }
+
+        .header .map {
+            max-width: 15%;
+            height: auto;
+        }
+
+        .stats {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin: 10px 0;
+        gap: 10px;
+    }
+
+    .stat-box {
+        position: relative;
+        background: rgb(253, 32, 7);
+        color: rgb(248, 245, 245);
+        padding: 8px 10px;
+        border-radius: 1px;
+        text-align: center;
+        flex: 1;
+        min-width: 40px;
+        max-width: 145px;
+        margin-left: 40px; /* space for triangle */
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .stat-box::before {
+       
+        content: "";
+      position: absolute;
+      left: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      border-right: 40px solid rgb(253, 32, 7); /* Triangle color matches rectangle */
+    }
+
+        .container1 {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+
+            gap: -10px;
+        }
+
+        .chart-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 5px;
+            min-width: 510px;
+            width: 100%;
+        }
+
+        .key-facts {
+            margin-top: 20px;
+            padding: 10px;
+
+            border-radius: 5px;
+            text-align: center;
+            width: 100%;
+        }
+
+        h4 {
+            text-align: left;
+            font-size: 17px;
+            margin-bottom: 1px;
+        }
+
+        p,
+        ul {
+            font-size: 14px;
+        }
+
+        canvas {
+            max-width: 450px !important;
+            height: 320px !important;
+        }
+
+        @media (max-width: 768px) {
+            .container1 {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .chart-container {
+                width: 100%;
+            }
+        }
+
+        /* Navigation Container */
+.navcontainer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 30px !important;
+   
+    /* background-color: #f9f9f9 !important; */
+     }
+
+/* Logo */
+.logo img {
+    height: 50px !important;
+    /* Enforce logo size */
+}
+
+/* Navbar */
+.navbar ul {
+    list-style: none !important;
+    display: flex !important;
+    gap: 15px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar ul li {
+    display: inline !important;
+}
+
+.navbar ul li a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    /* Space between icon and text */
+    text-decoration: none !important;
+    color:  #044679 !important;
+    /* Improved text color */
+    
+    /* Soft gray background */
+    font-size: 14px !important;
+    /* Font size slightly smaller */
+    font-weight: bold !important;
+    padding: 8px 15px !important;
+    /* Padding for better spacing */
+    border-radius: 5px !important;
+    /* Rounded corners */
+    border: 1px solid transparent !important;
+    /* No visible border by default */
+    transition: all 0.3s ease-in-out !important;
+    /* Smooth hover effects */
+}
+
+/* Hover Effects */
+.navbar ul li a:hover {
+    color: #e2b01a !important;
+    /* White text color on hover */
+    background-color: #044679 !important;
+    /* Blue background on hover */
+    border: 1px solid #559fd8 !important;
+    /* Blue border on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    /* Subtle shadow */
+    transform: scale(1.05) !important;
+    /* Slight scaling effect */
+}
+
+/* Icons */
+.navbar ul li a i {
+    font-size: 16px !important;
+    /* Icon size */
+    color: #74c0fc !important;
+    /* Initial color for icons */
+    transition: color 0.3s ease-in-out !important;
+}
+
+.navbar ul li a:hover i {
+    color: #ffcc33 !important;
+    /* Change icon color on hover */
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: relative;
+  width: 50px;
+  height: 22px;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #00ccff;
+}
+
+input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+
+       
+    </style>
+</head>
+
+<body>
+    <div class="navcontainer">
+        <div class="logo">
+            <a href="/"><img src="{% static 'images/krimalogo.png' %}" alt="krima"></a>
+        </div>
+        <div class="navbar">
+            <ul>
+                <li><a href="/typeNews/{{ 'Enforcement Actions' }}"><i class="fa-solid fa-backward"></i>Back</a></li>
+                <li><a href="#"><i class="fa-solid fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="fa-solid fa-briefcase"></i></i>About</a></li>
+                <li><a href="#"><i class="fa-solid fa-envelope"></i></i>Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    {%for i in data%}
+    <div class="container">
+        {% load custom_filters %}
+        <div class="header" style="padding-bottom: 10px;">
+
+
+            {% if logo %}
+            <img src="{{logo }}" class="reg" alt="SEC Logo" style="max-height: 130px;">
+            {% else %}
+            <p>No logo found</p>
+            {% endif %}
+
+
+            <div style="margin-left: 20px; width: 220px; text-align: center;">
+                {% if flag %}
+                    <img src="{{ flag }}" class="flag" alt="{{ country_name }} Flag" style="max-width: 100px; margin-bottom: 5px;">
+                {% else %}
+                    <p>No flag found</p>
+                {% endif %}
+                <p style="margin: 0; font-weight: bold;">{{ i.rbCountry }}</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    GDP 2023 <br> 
+                    {% if i.GDP_2023 %}
+                    US$ {{ i.GDP_2023|to_million }}
+                    {% else %}
+                     US$ {{ i.GDP_2023_USD|to_million }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <img src="{%static 'images/map.png'%}" class="map" alt="US Flag">
+
+        </div>
+        <div class="container1">
+            <div style="padding-top: 0%;">
+
+                {%if i.Year_of_Establishment %}
+                <h4 style="margin: 0%;">Establishment Year: <span
+                        style="color: rgb(58, 58, 58);">{{i.Year_of_Establishment|floatformat:0}}</span>
+                </h4>
+                {%endif%}
+
+                
+                {%if i.Charter%}
+                <h4 style="margin: 0%;">Charter:</h4>
+                <ul style="margin-top: 0%;">
+                    {% for sentence in i.Charter|split_by_period %}
+                    <li style="color: rgb(58, 58, 58);">{{ sentence }}</li>
+                    {% endfor %}
+                </ul>
+                {%endif%}
+
+
+                <h4 style="margin: 0%;">Preview of Regulation:</h4>
+                <ul style="margin-top: 0%;">
+                    {% for sentence in i.Purview_of_Regulation|split_by_period %}
+                    <li style="color: rgb(58, 58, 58);">{{ sentence }}</li>
+                    {% endfor %}
+                </ul>
+
+
+                <h4>Preview of Sector Coverage:</h4>
+                <ul style="margin-top: 0%;">
+                    {% for sentence in i.Purview_of_Sector_Coverage|split_by_period %}
+                    <li style="color: rgb(58, 58, 58);">{{ sentence }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Summary:</h4>
+                <ul style="margin-top: 0%;">
+                    <li style="color: rgb(58, 58, 58); list-style: none;"> {{i.Short_Summary}}</li>
+                </ul>
+
+            </div>
+            <div class="chart-container">
+                <div>
+                    <p style="text-align: center;"></p>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleChartSwitch">
+                        <span class="slider"></span>
+                        <span class="label-text" id="chartToggleLabel">Switch to Bar</span>
+                      </label>
+                    <canvas id="gdpChart" ></canvas>
+                    <div style="text-align: right; margin-top: 5px; font-size: 13px; color: rgb(139, 137, 137);">
+                       Source: <i style="font-weight: 400;"> World Bank</i> 
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <!-- Embed data safely from Django -->
+    {{ gdp_data|json_script:"gdp-data" }}
+    {{ country_name|json_script:"country-name" }}
+
+    <script>
+        function getAverageRGB(imgEl) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const rgb = { r: 0, g: 0, b: 0 };
+            let count = 0;
+    
+            canvas.width = imgEl.naturalWidth;
+            canvas.height = imgEl.naturalHeight;
+            context.drawImage(imgEl, 0, 0);
+    
+            const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
+            for (let i = 0; i < data.length; i += 4) {
+                const alpha = data[i + 3];
+                if (alpha > 128) {
+                    rgb.r += data[i];
+                    rgb.g += data[i + 1];
+                    rgb.b += data[i + 2];
+                    count++;
+                }
+            }
+    
+            rgb.r = Math.floor(rgb.r / count);
+            rgb.g = Math.floor(rgb.g / count);
+            rgb.b = Math.floor(rgb.b / count);
+            return rgb;
+        }
+    
+        function getBrightness(r, g, b) {
+            return (r * 299 + g * 587 + b * 114) / 1000;
+        }
+    
+        function updateThemeAndRenderChart() {
+            const logo = document.querySelector('img.reg');
+            if (!logo) return;
+    
+            const { r, g, b } = getAverageRGB(logo);
+            const brightness = getBrightness(r, g, b);
+            const isDark = brightness < 128;
+    
+            // Theme setup
+            document.body.style.backgroundColor = isDark ? '#f4f4f4' : '#1c1c1c';
+            document.body.style.color = isDark ? '#1c1c1c' : '#f4f4f4';
+    
+            // Adjust all text elements
+            document.querySelectorAll('li, h4, p, span').forEach(el => {
+                el.style.color = document.body.style.color;
+            });
+    
+            // Adjust logo display
+            if (brightness > 200) {
+                logo.style.mixBlendMode = 'lighten';
+                logo.style.filter = 'contrast(1.2) brightness(1.2)';
+            } else if (brightness < 80) {
+                logo.style.mixBlendMode = 'normal';
+                logo.style.filter = 'brightness(1.3)';
+            } else {
+                logo.style.mixBlendMode = 'normal';
+                logo.style.filter = 'contrast(1.1)';
+            }
+    
+            if (logo.naturalWidth < 100 || logo.naturalHeight < 50) {
+                logo.style.width = "140px";
+            }
+    
+            // === Chart Rendering ===
+            const lineColor = 'rgba(0, 204, 255, 1)';
+            const fillColor = 'rgba(0, 204, 255, 0.3)';
+            const fontColor = isDark ? '#1c1c1c' : '#f4f4f4';
+    
+            const gdpData = JSON.parse(document.getElementById('gdp-data').textContent || '[0,0,0,0,0]');
+            const countryName = JSON.parse(document.getElementById('country-name').textContent || 'Country');
+    
+            const ctx = document.getElementById('gdpChart').getContext('2d');
+            Chart.register(ChartDataLabels);
+    
+            let chartType = 'line';
+    
+            const config = {
+                type: chartType,
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        label: `GDP Growth Rate (%) - ${countryName}`,
+                        data: gdpData,
+                        borderColor: lineColor,
+                        backgroundColor: fillColor,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: { top: 20, right: 40, bottom: 10, left: 60 }
+                    },
+                    scales: {
+                        y: {
+            beginAtZero: true,
+            suggestedMax: Math.ceil(Math.max(...gdpData) + 1.5),  // <- Dynamically set
+            ticks: {
+                stepSize: 0.5,
+                callback: value => value.toFixed(1),
+                color: fontColor
+            },
+            grid: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'GDP Growth Rate (%)',
+                color: fontColor
+            }
+        },
+                        x: {
+                            grid: { display: false },
+                            title: {
+                                display: true,
+                                text: 'Year',
+                                color: fontColor
+                            },
+                            ticks: { color: fontColor }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `5-Year GDP Growth Trend (${countryName})`,
+                            color: fontColor,
+                            font: { size: 14, weight: 'bold' },
+                            padding: { bottom: 5 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: context => `${context.parsed.y}%`
+                            }
+                        },
+                        legend: {
+                            labels: { color: fontColor }
+                        },
+                        datalabels: {
+                            color: fontColor,
+                            anchor: 'top',
+                            align: 'end',
+                            font: { weight: 'bold' },
+                            formatter: value => `${value}%`
+                        }
+                    }
+                }
+            };
+    
+            let myChart = new Chart(ctx, config);
+    
+            document.getElementById('toggleChartSwitch').addEventListener('change', function () {
+    const label = document.getElementById('chartToggleLabel');
+
+    chartType = this.checked ? 'bar' : 'line';
+    label.textContent = this.checked ? 'Switch to Line' : 'Switch to Bar';
+    config.type = chartType;
+
+    myChart.destroy(); // destroy current chart
+    myChart = new Chart(ctx, config); // create new chart with new type
+});
+        }
+    
+        window.addEventListener('load', () => {
+            const logo = document.querySelector('img.reg');
+            if (logo && logo.complete) {
+                updateThemeAndRenderChart();
+            } else if (logo) {
+                logo.onload = updateThemeAndRenderChart;
+            }
+        });
+    
+    </script>
+    
+
+</body>
+
+</html>

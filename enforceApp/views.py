@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from App.models import *
 import plotly.graph_objects as go
 import plotly.express as px
@@ -7,6 +7,9 @@ import pandas as pd
 from datetime import datetime,timedelta,date
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.templatetags.static import static
+import json
 
 
 
@@ -32,7 +35,7 @@ def generate_graphs(filedata):
             return None, None
 
         # Filter and clean data
-        filtered_df = df[df["KRIMA_type"].isin(["Penalty Notices", "Infringements or Investigations"])]
+        filtered_df = df[df["KRIMA_type"].isin(["Penalty Orders", "Infringements or Investigations"])]
         filtered_df["KRIMA_imposed_penalty_USD"] = pd.to_numeric(filtered_df["KRIMA_imposed_penalty_USD"], errors="coerce")
         filtered_df.dropna(subset=["KRIMA_imposed_penalty_USD", "Date"], inplace=True)
         filtered_df["Date"] = pd.to_datetime(filtered_df["Date"], errors="coerce")
@@ -70,19 +73,45 @@ def generate_graphs(filedata):
 
         text_positions = calculate_text_position(grouped_yearly_data["KRIMA_imposed_penalty_USD"])
 
-        # Graph: Yearly penalties
-        fig = go.Figure(data=[
-            go.Scatter(
-                x=grouped_yearly_data["Year"],
-                y=grouped_yearly_data["KRIMA_imposed_penalty_USD"],
-                text=grouped_yearly_data["KRIMA_imposed_penalty_USD"].round(1).astype(str) + "M",
-                textposition=text_positions,
-                mode="lines+markers+text",
-                line=dict(color="rgba(135, 200, 235, 0.8)", width=4),
-                marker=dict(size=9, color="green", symbol="circle"),
-                textfont=dict(size=11, color="darkgreen", family="Arial"),
-            )
-        ])
+        fig = go.Figure()
+
+        # Initial trace (starting with first point)
+        fig.add_trace(go.Scatter(
+            x=[grouped_yearly_data["Year"].iloc[0]],  # Start with the first point
+            y=[grouped_yearly_data["KRIMA_imposed_penalty_USD"].iloc[0]],
+            text=[grouped_yearly_data["KRIMA_imposed_penalty_USD"].iloc[0].round(1).astype(str) + "M"],
+            textposition=[text_positions[0]],
+            mode="lines+markers+text",
+            line=dict(color="rgba(135, 200, 235, 0.8)", width=4),
+            marker=dict(size=9, color="green", symbol="circle"),
+            textfont=dict(size=11, color="darkgreen", family="Arial"),
+        ))
+
+        # Add animation frames (Fix: Ensure full dataset appears)
+        frames1 = []
+        num_steps = 5  # Increase for smoother effect
+        for step in range(1, num_steps +1 ):
+            fraction = step / num_steps  # Gradual reveal
+            num_points = int(fraction * len(grouped_yearly_data)+2)  # Number of points to reveal
+
+            frames1.append(go.Frame(
+                data=[go.Scatter(
+                    x=grouped_yearly_data["Year"][:num_points],
+                    y=grouped_yearly_data["KRIMA_imposed_penalty_USD"][:num_points],
+                    text=grouped_yearly_data["KRIMA_imposed_penalty_USD"][:num_points].round(0).astype(str) + "M",
+                    textposition=text_positions[:num_points],
+                    mode="lines+markers+text",
+                    line=dict(color="rgba(135, 200, 235, 0.8)", width=4),
+                    marker=dict(size=9, color="green", symbol="circle"),
+                    textfont=dict(size=11, color="darkgreen", family="Arial"),
+                )
+                
+                ]
+            ))
+
+        fig.update(frames=frames1)
+
+        # Layout and animation settings
         fig.update_layout(
             title_text="Imposed Monetary Fine (in USD)",
             title_x=0.5,
@@ -91,28 +120,79 @@ def generate_graphs(filedata):
             width=600,
             height=430,
             plot_bgcolor="rgba(0,0,0,0)",
+            updatemenus=[] , # No play button, animation auto-starts
+        )
+        fig.update_layout(
+            sliders=[{
+                
+                "transition": {"duration": 400},
+                "currentvalue": {"prefix": "Year: "},
+            }]
         )
 
-        # Graph: Areas of regulation
-        fig1 = go.Figure(data=[
-            go.Bar(
+
+        color_stages = [
+    'rgba(135, 200, 235, 0.8)',  # Light Blue
+    'rgba(135, 200, 235, 0.8)',  # Light Green
+    'rgba(135, 200, 235, 0.8)',  # Light Yellow
+    'rgba(135, 200, 235, 0.8)'   # Final Blue (Original)
+]
+
+# Create figure
+        fig1 = go.Figure()
+
+        # Initial empty bar
+        fig1.add_trace(go.Bar(
+            y=top_areas['Krima_Area_of_regulation'],
+            x=[0] * len(top_areas),  # Start from 0
+            orientation='h',
+            marker=dict(color=color_stages[0]),  # Start with first shade
+            text=['0%'] * len(top_areas),
+            textposition='outside',
+        ))
+
+        # Generate animation frames with color transitions
+        frames = []
+        num_steps = 1 # Number of animation steps
+        for i in range(1, num_steps + 1):
+            # Determine the color stage based on progress
+            color = color_stages[i * len(color_stages) // (num_steps + 1)]
+            
+            frames.append(go.Frame(data=[go.Bar(
                 y=top_areas['Krima_Area_of_regulation'],
-                x=top_areas['percentage'],
-                orientation='h',
-                marker=dict(color='rgba(135, 200, 235, 0.8)'),
-                text=top_areas['percentage'].astype(str) + '%',
-                textposition='outside',
-            )
-        ])
+                x=(i / num_steps) * top_areas['percentage'],  # Gradual increase
+                text=((i / num_steps) * top_areas['percentage']).round(1).astype(str) + '%',
+                marker=dict(color=color)  # Change color during animation
+            )]))
+
+        # Final frame: Restore original color
+        frames.append(go.Frame(data=[go.Bar(
+            y=top_areas['Krima_Area_of_regulation'],
+            x=top_areas['percentage'],
+            text=top_areas['percentage'].astype(str) + '%',
+            marker=dict(color=color_stages[-1])  # Final original color
+        )]))
+
+        fig1.update(frames=frames)
+
+        # Layout and animation settings
         fig1.update_layout(
             title="Most Regulated Areas of Regulation",
             width=600,
             height=430,
             margin=dict(r=0),
             yaxis=dict(autorange="reversed", showgrid=False),
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            xaxis=dict(showgrid=False, zeroline=False, range=[0, max(top_areas['percentage']) * 1.2]),
             plot_bgcolor='rgba(0,0,0,0)',
+            updatemenus=[],  # No visible play button
+            sliders=[{
+                "transition": {"duration": 100,  # Animation duration in milliseconds
+            "easing": "cubic-in-out"  # Use a smooth easing function 
+            },
+                
+            }]
         )
+        
 
         # Return HTML for graphs
         return fig.to_html(full_html=False), fig1.to_html(full_html=False)
@@ -133,6 +213,7 @@ def enforceType(request, typ):
     cuntryLen = {}
     compnayLen = {}
     regLen = {}
+    rbData={}
 
     try:
         # Fetch all data from the database
@@ -144,9 +225,10 @@ def enforceType(request, typ):
                 if (
                     typ == 'Enforcement Actions'
                     and hasattr(item, 'KRIMA_type')
-                    and item.KRIMA_type in ['Disciplinary Proceedings','Disciplinary proceedings' ,'Penalty Notices', 'Infringements or Investigations']
+                    and item.KRIMA_type in ['Disciplinary Proceedings','Disciplinary proceedings' ,'Penalty Orders', 'Infringements or Investigations']
                 ):
                     enforce_data.append(item)
+                    rbData[item.rbID] = item.RegFullName 
 
                     # Collect unique values for filters
                     if item.rbCountry:
@@ -174,7 +256,7 @@ def enforceType(request, typ):
         # Count occurrences
         for item in enforce_data:
             cuntryLen[item.rbCountry] = cuntryLen.get(item.rbCountry, 0) + 1
-            compnayLen[item.Company_Name] = compnayLen.get(item.Company_Name, 0) + 1
+            compnayLen[item.KRIMA_edited_gpt_company_check] = compnayLen.get(item.KRIMA_edited_gpt_company_check, 0) + 1
             regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
 
         # Cache graphs if not already cached
@@ -194,6 +276,7 @@ def enforceType(request, typ):
                 'data': Frontdata,
                 'rangeData': rangeDate,
                 'lenData':enforce_data,
+                'rbData':rbData,
                 'country': sorted(country),
                 'regulatory': sorted(regulatory),
                 'company': sorted(company),
@@ -216,14 +299,13 @@ def enforceType(request, typ):
 
 
 def fetch_and_process_data():
-    enforceData = ['Disciplinary Proceedings','Disciplinary proceedings' ,'Penalty Notices', 'Infringements or Investigations']
+    enforceData = ['Disciplinary Proceedings','Disciplinary proceedings' ,'Penalty Orders', 'Infringements or Investigations']
     filetrData = []
     country, regulatory, industry, regulation_set, noticeType, penaltyType, company = (
         set(), set(), set(), set(), set(), set(), set()
     )
-    cuntryLen={}
-    compnayLen={}
-    regLen={}
+    rbData={}
+    
     try:
         # Fetch all data from the database
         filedata = krimaCompanyData.objects.all()
@@ -235,6 +317,7 @@ def fetch_and_process_data():
                 # Filter by enforcement data type
                 if getattr(item, 'KRIMA_type', '') in enforceData:
                     filetrData.append(item)
+                    rbData[item.rbID] = item.RegFullName
 
                     # Populate sets with unique values
                     if getattr(item, 'rbCountry', ''):
@@ -244,8 +327,8 @@ def fetch_and_process_data():
                     if getattr(item, 'Regulatory', ''):
                         regulatory.add(item.Regulatory)
                         
-                    if getattr(item, 'Company_Name', ''):
-                        company.add(item.Company_Name)
+                    if getattr(item, 'KRIMA_edited_gpt_company_check', ''):
+                        company.add(item.KRIMA_edited_gpt_company_check)
             
 
                     if getattr(item, 'KRIMA_type', ''):
@@ -269,24 +352,11 @@ def fetch_and_process_data():
         Frontdata = enforce_data[:10]  # First 10 entries for the front page
         rangeDate = enforce_data[11:15]  # First 12 entries for the Date range
         
-        # Process remaining enforce_data entries
-        for item in enforce_data:
-            if hasattr(item, 'rbCountry') and item.rbCountry:
-                cuntryLen[item.rbCountry] = cuntryLen.get(item.rbCountry, 0) + 1
-
-            if hasattr(item, 'Company_Name') and item.Company_Name:
-                compnayLen[item.Company_Name] = compnayLen.get(item.Company_Name, 0) + 1
-            
-            if hasattr(item, 'Regulatory') and item.Regulatory:
-                regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
-
-        
-
         # Filter companies with occurrences >= 2
-        filtered_compnay = {key: value for key, value in compnayLen.items()}
+        
         
 
-        return filetrData, filtered_compnay, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company, cuntryLen,regLen
+        return filetrData, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company,rbData
 
     except Exception as e:
         print(f"Error in enforceType: {e}")
@@ -331,6 +401,7 @@ def filter_by_Date_range(filtered_data, fromMonth, fromYear, toMonth, toYear):
 def apply_filters(filtered_data, selected_country, selected_regulatory, selected_industry, selected_regulation,
                   selected_noticeType, selected_penaltyType, selected_company):
     """Apply additional filters based on the user inputs."""
+
     # Filter by country
     if selected_country:
         filtered_data = [
@@ -386,16 +457,22 @@ def apply_filters(filtered_data, selected_country, selected_regulatory, selected
     if selected_company:
         filtered_data = [
             item for item in filtered_data
-            if getattr(item, 'Company_Name', '') in selected_company
+            if getattr(item, 'KRIMA_edited_gpt_company_check', '') in selected_company
         ]
+
+    
 
     return filtered_data
 
 @login_required
 def filterData(request):
+    cuntryLen={}
+    compnayLen={}
+    regLen={}
     try:
+        
         # Fetch and process data
-        filetrData, filtered_compnay, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company, cuntryLen,regLen = fetch_and_process_data()
+        filetrData, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company,rbData = fetch_and_process_data()
 
         if request.method == 'POST':
             # Extract filter inputs
@@ -418,10 +495,13 @@ def filterData(request):
                 return JsonResponse({"error": str(e)}, status=400)
 
             # Apply additional filters
-            filtered_data = apply_filters(
+            filtered_data= apply_filters(
                 filtered_data, selected_country, selected_regulatory, selected_industry, selected_regulation,
                 selected_noticeType, '', ''
             )
+
+            
+            
             graph_html = cache.get('graph_html')
             graph_html1 = cache.get('graph_html1')
             if not graph_html or not graph_html1:
@@ -434,6 +514,17 @@ def filterData(request):
                 cache.set('graph_html1', graph_html1, timeout=3600)
 
             filtered_data = sorted(filtered_data, key=lambda x: getattr(x, 'Date', datetime.min),reverse=True)
+            for item in filtered_data:
+                if hasattr(item, 'rbCountry') and item.rbCountry:
+                    cuntryLen[item.rbCountry] = cuntryLen.get(item.rbCountry, 0) + 1
+
+                if hasattr(item, 'KRIMA_edited_gpt_company_check') and item.KRIMA_edited_gpt_company_check:
+                    compnayLen[item.KRIMA_edited_gpt_company_check] = compnayLen.get(item.KRIMA_edited_gpt_company_check, 0) + 1
+                
+                if hasattr(item, 'Regulatory') and item.Regulatory:
+                    regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
+
+            filtered_compnay = {key: value for key, value in compnayLen.items()}
 
             return render(request, 'enforceHtml/enforceFilter.html', {
                 
@@ -444,6 +535,7 @@ def filterData(request):
                 'regulatory': sorted(regulatory),
                 # 'company': sorted(company),
                 'noticeType': sorted(noticeType),
+                'rbData':rbData,
                 'industry': sorted(industry),
                 'regulation': sorted(regulation_set),
                 # 'penaltyType': sorted(penaltyType),
@@ -469,7 +561,10 @@ def filterData(request):
 @login_required
 def findCountry(request,cntry):
     findcountry=cntry
-    filetrData, filtered_compnay, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company, cuntryLen, regLen = fetch_and_process_data()
+    cuntryLen={}
+    compnayLen={}
+    regLen={}
+    filetrData, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company,rbData = fetch_and_process_data()
     graph_html = cache.get('graph_html')
     graph_html1 = cache.get('graph_html1')
     if not graph_html or not graph_html1:
@@ -487,7 +582,18 @@ def findCountry(request,cntry):
         if i.rbCountry == findcountry:
             contryData.append(i)
 
-    contryData = sorted(contryData, key=lambda x: x.Date, reverse=True)   
+    contryData = sorted(contryData, key=lambda x: x.Date, reverse=True) 
+    for item in filetrData:
+        if hasattr(item, 'rbCountry') and item.rbCountry:
+            cuntryLen[item.rbCountry] = cuntryLen.get(item.rbCountry, 0) + 1
+
+        if hasattr(item, 'KRIMA_edited_gpt_company_check') and item.KRIMA_edited_gpt_company_check:
+            compnayLen[item.KRIMA_edited_gpt_company_check] = compnayLen.get(item.KRIMA_edited_gpt_company_check, 0) + 1
+                
+        if hasattr(item, 'Regulatory') and item.Regulatory:
+            regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
+
+    filtered_compnay = {key: value for key, value in compnayLen.items()}  
     return render(request, 'enforceHtml/enforceCtRg.html', {
                 
                 'data': contryData,  # Adjust pagination if necessary
@@ -505,13 +611,17 @@ def findCountry(request,cntry):
                 'cuntryLen':cuntryLen,
                 'compnayLen':filtered_compnay,
                 'regLen':regLen,
-                'countryName':findcountry
+                'countryName':findcountry,
+                'rbData':rbData
             })
 
 @login_required
 def findCompany(request,cmpny):
     findcompnay=cmpny
-    filetrData, filtered_compnay, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company, cuntryLen, regLen = fetch_and_process_data()
+    cuntryLen={}
+    compnayLen={}
+    regLen={}
+    filetrData, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company,rbData= fetch_and_process_data()
     graph_html = cache.get('graph_html')
     graph_html1 = cache.get('graph_html1')
     if not graph_html or not graph_html1:
@@ -525,9 +635,20 @@ def findCompany(request,cmpny):
 
     companyData=[]
     for i in filetrData:
-        if i.Company_Name == findcompnay:
+        if i.KRIMA_edited_gpt_company_check == findcompnay:
             companyData.append(i) 
     companyData = sorted(companyData, key=lambda x: x.Date, reverse=True) 
+    for item in filetrData:
+        if hasattr(item, 'rbCountry') and item.rbCountry:
+            cuntryLen[item.rbCountry] = cuntryLen.get(item.rbCountry, 0) + 1
+
+        if hasattr(item, 'KRIMA_edited_gpt_company_check') and item.KRIMA_edited_gpt_company_check:
+            compnayLen[item.KRIMA_edited_gpt_company_check] = compnayLen.get(item.KRIMA_edited_gpt_company_check, 0) + 1
+                
+        if hasattr(item, 'Regulatory') and item.Regulatory:
+            regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
+
+    filtered_compnay = {key: value for key, value in compnayLen.items()}
     return render(request, 'enforceHtml/enforceCtRg.html', {
                 
                 'data': companyData,  # Adjust pagination if necessary
@@ -545,16 +666,22 @@ def findCompany(request,cmpny):
                 'cuntryLen':cuntryLen,
                 'compnayLen':filtered_compnay,
                 'regLen':regLen,
-                'countryName':findcompnay
+                'countryName':findcompnay,
+                'rbData':rbData
             })
 
 
 @login_required
 def findReg(request,reg):
     findreg=reg
-    filetrData, filtered_compnay, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company, cuntryLen, regLen = fetch_and_process_data()
+    cuntryLen={}
+    compnayLen={}
+    regLen={}
+    regName=set()
+    filetrData, rangeDate, country, regulatory, industry, regulation_set, noticeType, penaltyType, company,rbData = fetch_and_process_data()
     graph_html = cache.get('graph_html')
     graph_html1 = cache.get('graph_html1')
+    regName=set()
     if not graph_html or not graph_html1:
         # Cache miss: Generate graphs
         filedata = krimaCompanyData.objects.all()
@@ -568,7 +695,20 @@ def findReg(request,reg):
     for i in filetrData:
         if i.Regulatory == findreg:
             regData.append(i)
-    regData = sorted(regData, key=lambda x: x.Date, reverse=True) 
+            regName.add(i.RegFullName)
+        
+    regData = sorted(regData, key=lambda x: x.Date, reverse=True)
+    for item in filetrData:
+        if hasattr(item, 'rbCountry') and item.rbCountry:
+            cuntryLen[item.rbCountry] = cuntryLen.get(item.rbCountry, 0) + 1
+
+        if hasattr(item, 'KRIMA_edited_gpt_company_check') and item.KRIMA_edited_gpt_company_check:
+            compnayLen[item.KRIMA_edited_gpt_company_check] = compnayLen.get(item.KRIMA_edited_gpt_company_check, 0) + 1
+                
+        if hasattr(item, 'Regulatory') and item.Regulatory:
+            regLen[item.Regulatory] = regLen.get(item.Regulatory, 0) + 1
+
+    filtered_compnay = {key: value for key, value in compnayLen.items()}  
     return render(request, 'enforceHtml/enforceCtRg.html', {
                 
                 'data': regData,  # Adjust pagination if necessary
@@ -586,5 +726,112 @@ def findReg(request,reg):
                 'cuntryLen':cuntryLen,
                 'compnayLen':filtered_compnay,
                 'regLen':regLen,
-                'countryName':findreg
+                'regName':regName,
+                'rbData':rbData
             })
+
+
+
+def normalize(name):
+    return name.lower().replace(" ", "_").replace("-", "_")
+
+def get_flag_path(country_name):
+    if not country_name:
+        return ''
+    
+    flag_dir = os.path.join(settings.BASE_DIR, 'App', 'static', 'images', 'Flags')
+
+    try:
+        for file_name in os.listdir(flag_dir):
+            name, ext = os.path.splitext(file_name)
+            if name.lower() == country_name.lower() and ext.lower() in ['.png', '.jpg', '.jpeg', '.svg', '.webp']:
+                relative_path = os.path.join('images', 'Flags', file_name)
+                return static(relative_path)
+    except FileNotFoundError:
+        return ''
+
+    return ''
+
+def get_logo_path(rbid):
+    for ext in ['png', 'jpg', 'jpeg', 'svg', 'webp']:
+        relative_path = f"images/RB_Logos/{rbid}.{ext}"
+        absolute_path = os.path.join(settings.BASE_DIR, 'App', 'static', relative_path)
+        if os.path.exists(absolute_path):
+            return static(relative_path)
+    return ''
+
+@login_required
+def enforceRb(request, id):
+    rbid = str(id)
+    data = []
+    AGrowth = None
+    cGpd = None
+    gdp_data = []
+    country_name = None
+
+    # Load profile data
+    profile_path = os.path.join(settings.BASE_DIR, 'App', 'RbData', '196_RB_Profiles.json')
+    with open(profile_path, 'r') as file:
+        fileData = json.load(file)
+
+    # Check if rbid exists in fileData
+    for i in fileData:
+        if i['rbID'] == rbid:
+            data.append(i)
+            country_name = i.get('rbCountry')
+            break
+
+    # Redirect if rbid not found
+    if not data:
+        return redirect(request.META.get('HTTP_REFERER', '/typeNews/Enforcement%20Actions'))
+ # Redirect back or to home
+
+    # Get logo path
+    logo_path = get_logo_path(rbid)
+
+    # Get flag path
+    flag_path = get_flag_path(country_name) if country_name else ''
+
+    if country_name:
+        norm_name = normalize(country_name)
+
+        # Load GDP-related data
+        with open(os.path.join(settings.BASE_DIR, 'App', 'RbData', 'growth.json'), 'r') as f:
+            growth_json = json.load(f)
+
+        with open(os.path.join(settings.BASE_DIR, 'App', 'RbData', 'annualGrowth.json'), 'r') as f:
+            annual_json = json.load(f)
+
+        with open(os.path.join(settings.BASE_DIR, 'App', 'RbData', 'CountryGDP.json'), 'r') as f:
+            country_gdp_json = json.load(f)
+
+        # Extract gdp_data
+        for entry in growth_json:
+            if normalize(entry.get("Country_Name")) == norm_name:
+                expected_years = ['2019', '2020', '2021', '2022', '2023']
+                gdp_data = [entry.get(year) for year in expected_years]
+                break
+
+        # Extract AGrowth
+        for entry in annual_json:
+            if normalize(entry.get("Country_Name")) == norm_name:
+                AGrowth = entry.get('2023')
+                break
+
+        # Extract cGpd
+        for entry in country_gdp_json:
+            if normalize(entry.get("Country_Name")) == norm_name:
+                cGpd = entry.get('2023_USD')
+                break
+
+    # Attach GDP & growth to profile data
+    data[0]['GDP_2023_USD'] = cGpd
+    data[0]['Annual_Growth_2023'] = AGrowth
+
+    return render(request, 'enforceHtml/enforceRb.html', {
+        'data': data,
+        'logo': logo_path,
+        'flag': flag_path,
+        'gdp_data': gdp_data,
+        'country_name': country_name,
+    })

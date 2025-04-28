@@ -23,5 +23,6 @@ urlpatterns = [
     path('formFilter4',v.santionfilterData),
     path('findsantionCountry/<str:cntry>',v.findSantionCountry),
     path('findsantionReg/<str:reg>',v.findSantionReg),
+    path('sanctionrbProfile/<int:id>',v.sanctionrbProfile),
     
 ]

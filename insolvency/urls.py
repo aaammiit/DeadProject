@@ -24,5 +24,6 @@ urlpatterns = [
     path('formFilter5',v.insolvencyfilterData),
     path('findInsolCountry/<str:cntry>',v.findInsolCountry),
     path('findInsolReg/<str:reg>',v.findInsolReg),
+    path('InsolrbProfile/<int:id>',v.InsolrbProfile),
     
 ]

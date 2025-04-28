@@ -8,8 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+
     <!-- <link rel="stylesheet" href="{% static 'css/index2.css' %}"> -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -202,13 +206,13 @@
     <div class="section">
         <ul id="menu">
             <li class="icon-box"><a href="/typeNews1/{{ 'Regulatory Changes & Consultations' }}"
-                    class="nav-link1 lexend-deca-font" data-type="Regulatory Changes & Consultations"><i
-                        class="fas fa-gavel"></i> Consultations & Regulations
+                    class="nav-link1 lexend-deca-font" data-type="Regulatory Changes & Consultations">  <i class="fas fa-exclamation-triangle"></i>Consultations & Regulations
                       </a></li>
             <li class="icon-box"><a href="/typeNews2/{{ 'Regulatory Guidance' }}" class="nav-link1 lexend-deca-font"
                     data-type="Regulatory Guidance"><i class="fa-solid fa-book"></i> Regulatory Guidance</a></li>
             <li class="icon-box "><a href="/typeNews/{{ 'Enforcement Actions' }}" class="nav-link1 lexend-deca-font"
-                    data-type="Enforcement Actions"><i class="fas fa-exclamation-triangle"></i> Penalty Actions</a>
+                    data-type="Enforcement Actions"><i
+                    class="fas fa-gavel"></i> Penalty Actions</a>
             </li>
             <li class="icon-box"><a href="/typeNews5/{{ 'Insolvency' }}" class="nav-link1 lexend-deca-font"
               data-type="Insolvency"><i class="fa-solid fa-inbox"></i>Insolvency</a>
@@ -217,7 +221,7 @@
                     data-type="Speeches"><i class="fas fa-microphone"></i> Speeches</a></li>
             <li class="icon-box active"><a href="/typeNews4/{{ 'Sanctions' }}" class="nav-link1 lexend-deca-font"
                     data-type="Sanctions"><i class="fas fa-flag"></i> Sanctions</a></li>
-            <li><a href="#" id="toggleFilter" class="lexend-deca-font"><i class="fa-solid fa-filter"></i>Filters</a></li>
+            <!-- <li><a href="#" id="toggleFilter" class="lexend-deca-font"><i class="fa-solid fa-filter"></i>Filters</a></li> -->
         </ul>
     </div>
 
@@ -390,36 +394,80 @@
               <p style="font-weight: 600;color: #0d056e;">{{countryName}} -</p>
               {%else%}
               <p style="font-weight: 600;color: #0d056e;" >Latest Actions</p>
+
+
+              <div class="d-flex gap-2">
+                <p style="font-weight: 600;color: #9492a2;" >
+                  <a href="#" id="toggleFilter" class="lexend-deca-font fil1" style="font-weight: 500; color: rgb(29, 34, 85); text-decoration: none;font-size: 13px;"><i class="fa-solid fa-filter ic1" style="padding-right:3px;color: rgb(11, 143, 30)"></i>Filters</a>
+                </p>
+              <p style="font-weight: 600;color: #9492a2;">
+                <a href="/typeNews4/{{ 'Sanctions' }}" class="lexend-deca-font" style="font-weight: 500; color: rgb(29, 34, 85); text-decoration: none;font-size: 13px;"><i class="fa-solid fa-eraser ic" style="padding-right:3px;color: rgb(201, 62, 11)"></i>Clear Fiter</a>
+              </p>
+              </div>
+
+
+              <div class="d-flex gap-2">
+                <span style="font-weight: 600;color: #0d056e;font-size: 13px;">Applied</span>
+                {%if countryData%}
+                <p style="font-weight: 600;color: #202022;font-size: 13px;">></p>
+                <p style="font-weight: 600;color: #270dd6;font-size: 13px;" >
+                   Country({{countryData|length}})
+                </p>
+                {%endif%}
+                {%if regulatoryData%}
+                <p style="font-weight: 600;color: #202022;font-size: 13px;">></p>
+                <p style="font-weight: 600;color: #270dd6;font-size: 13px;" >
+                   Regulatory({{regulatoryData|length}})
+                </p>
+                {%endif%}
+               
+              </div>
               {%endif%}
+
+              <div class="d-flex align-items-center mb-3">
+                <label class="switch">
+                    <input type="checkbox" id="toggle-view-btn">
+                    <span class="slider round"></span>
+                </label>
+                <span class="ml-2" id="toggle-label" style="font-weight: 500; color: rgb(29, 34, 85);font-size: 13px;">Table View</span>
+            </div>
+            <div class="d-flex align-items-center mb-3 " id="export-view" style="display: none;">
+              Export - 
+              <button id="exportExcel" class="btn" style="padding: 0%;">
+                  <i class="bi bi-file-earmark-excel-fill" style="color: rgb(25, 157, 32);"></i>
+              </button>
+              <button id="exportPDF" class="btn" style="padding: 0%;">
+                  <i class="bi bi-filetype-pdf" style="color: brown;"></i>
+              </button>
+      </div>
             </div>
             <!-- News cards -->
+            <div id="card-view">
             {% for i in data %}
 <div class="card mt-1 filterable-card" data-title="{{ i.title }}" data-country="{{ i.country }}" data-regulatory="{{ i.regulatory }}" style="display: {% if forloop.counter > 10 %}none{% else %}block{% endif %}">
     <div class="card-body border-light">
-        <h5 class="card-title " style="font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+        <h5 class="card-title " style="font-size: 12px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
             <a href="{{i.URL}}" style="text-decoration: none; color: rgb(6, 37, 53);" target="_blank" class="atag lexend-deca-font">{{ i.New_Title }}</a>
             <button class="accordion-toggle-btn" type="button" aria-expanded="false">
                 <i class="fas fa-chevron-down"></i> <!-- Font Awesome Chevron Icon -->
             </button>
         </h5>
         <div class="d-flex mt-1" style="gap: 10px;">
-          <p class="card-text lexend-deca-font1" style="font-size: 13px;">{{ i.Date }}</p>
-          <p class="card-text lexend-deca-font1" style="font-size: 13px; margin: 0;">|</p>
-          <p class="card-text lexend-deca-font1" style="font-size: 13px;">{{ i.rbCountry }}</p>
-          <p class="card-text lexend-deca-font1" style="font-size: 13px; margin: 0;">|</p>
-          <p class="card-text lexend-deca-font1" style="font-size: 13px;">{{ i.KRIMA_type }}</p>
+          <p class="card-text lexend-deca-font1" style="font-size: 11px;">{{ i.Date }}</p>
+          <p class="card-text lexend-deca-font1" style="font-size: 11px; margin: 0;">|</p>
+          <p class="card-text lexend-deca-font1" style="font-size: 11px;">{{i.RegFullName}}, {{ i.rbCountry }}</p>
+          <p class="card-text lexend-deca-font1" style="font-size: 11px; margin: 0;">|</p>
+          <p class="card-text lexend-deca-font1" style="font-size: 11px;">{{ i.KRIMA_type }}</p>
       </div>
-      <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued by :
-          <a href="" style="text-decoration: none;" class="atag lexend-deca-font1 text-dark">{{ i.Regulatory }}</a>
-      </p>
+      
         {%load custom_filters%}
         
         <div class="accordion-content">
             <div class="accordion-body">
               {% if i.KRIMA_imposed_penalty_USD %}
               <div class="d-flex" style="gap:10px;">
-               {% if i.Company_Name %}
-               <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued To : {{ i.Company_Name }}</p>
+               {% if i.KRIMA_edited_gpt_company_check %}
+               <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued To : {{ i.KRIMA_edited_gpt_company_check }}</p>
                {% endif %}
                <p class="card-text lexend-deca-font1" style="font-size: 13px; margin: 0;">|</p>
                <p class="card-text lexend-deca-font1" style="font-size: 13px; font-weight: 550;">Total Fine :
@@ -452,21 +500,13 @@
                </p>
            </div>
            {%else%}
-           {% if i.Company_Name %}
-               <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued To : {{ i.Company_Name }}</p>
+           {% if i.KRIMA_edited_gpt_company_check %}
+               <p class="card-text lexend-deca-font1" style="font-size: 13px;">Issued To : {{ i.KRIMA_edited_gpt_company_check }}</p>
                {% endif %}
            {% endif %}
-                <!-- <div class="d-flex" style="gap: 15px;">
-                    <p class="card-text lexend-deca-font1" style="font-size: 13px;">
-                        <span style="color: rgb(6, 37, 53); font-size: 14px;font-weight: 500;">Industry:</span> {{ i.activityOrService }}
-                    </p>
-                    <p class="card-text lexend-deca-font1 text-dark" style="font-size: 13px; margin: 0;">|</p>
-                    <p class="card-text lexend-deca-font1" style="font-size: 13px;">
-                        <span style="color: rgb(6, 37, 53); font-size: 14px;font-weight: 500;">Regulation:</span> {{ i.regulation }}
-                    </p>
-                </div> -->
-                <p class="card-text lexend-deca-font2" style="font-size: 13px;">
-                    <span style="color: rgb(6, 37, 53); font-size: 14px;font-weight: 500;"></span> {{ i.Summary }}
+                
+                <p class="card-text lexend-deca-font2" style="font-size: 11px;">
+                    {{ i.Summary }}
                 </p>
             </div>
         </div>
@@ -476,26 +516,82 @@
 <h5 class="card-title"  style="font-size: 14px; font-weight: 500; text-align: center;">
     <a href="javascript:void(0);" id="load-more-card" style="text-decoration: none; color: rgb(10, 8, 104);" class="btn btn-outline-primary mt-1">load More</a>
   </h5>
+ </div>
 
-        </div>
+ <div id="table-view" class="table table-hover" style="display: none;">
+  
+  <div class="table-container">  <!-- Added this div for scroll -->
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Headlines
+                  </th>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Date</th>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Regulator</th>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Country</th>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Category </th>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Sector</th>
+                  <th style="font-size: 12px; font-weight: bold; color: rgb(28, 79, 105);">Regulation type</th>
+                 
+              </tr>
+              
+          </thead>
+          <tbody id="table-body">
+              {% for i in data %}
+              <tr class="table-row" style="display: {% if forloop.counter > 10 %}none{% else %}table-row{% endif %};">
+                  <td><a href="{{ i.URL }}" style="text-decoration: none; color: rgb(6, 37, 53); font-size: 12px;font-weight: 600;" class="atag lexend-deca-font" target="_blank">{{ i.New_Title }}</a></td>
+                  <td class="card-text lexend-deca-font1" style="font-size: 11px;">{{ i.Date }}</td>
+                  <td class="card-text lexend-deca-font1" style="font-size: 11px;">{{ i.RegFullName }}</td>
+                  <td class="card-text lexend-deca-font1" style="font-size: 11px;">{{ i.rbCountry }}</td>
+                  <td class="card-text lexend-deca-font1" style="font-size: 11px;">{{ i.KRIMA_type }}</td>
+                  <td class="card-text lexend-deca-font1" style="font-size: 11px;">
+                    {% if i.KRIMA_edited_gpt_company_check %}
+                      {{ i.KRIMA_edited_gpt_company_check }}
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td>
+                  <td class="card-text lexend-deca-font1" style="font-size: 11px;">
+                    {% if i.KRIMA_imposed_penalty_USD %}
+                      {{ i.KRIMA_imposed_penalty_USD }}
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </td>
+                  
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  <div class="pagination-controls" style="text-align: center; margin-top: 10px;">
+      <button id="prev-page" class="btn btn-outline-primary" disabled style="color: rgb(10, 8, 104);">Previous</button>
+      <span id="page-info">Page 1</span>
+      <button id="next-page" class="btn btn-outline-primary" style="color: rgb(10, 8, 104);">Next</button>
+  </div>
+</div>
+</div>
+
+
+
         <!-- related News cards -->
         <div class="p-2 flex-shrink-1 bd-highlight ">  
                 <p style="font-weight: 600;color: #0d056e;" class="mt-1" >Recent Updates </p>
             {%for i in rangedate%}
             <div class="card" style="width: 18rem;">
     
-                <div class="card-body" >
-                    <h5 class="card-title" style="font-size: 13px; font-weight: 700;"><a href="{{i.URL}}" style="text-decoration: none;color: rgb(6, 37, 53);" class="atag">{{ i.New_Title }} </a></h5>
-                </div>
+              <div class="card-body" style="padding: 2.5px 0px;" >
+                <h5 class="card-title" style="font-size: 12px; font-weight: 470;"><a href="{{i.URL}}" style="text-decoration: none;color: rgb(6, 37, 53);" class="atag">{{ i.New_Title }} </a></h5>
+            </div>
               </div>
               {%endfor%}
 
-              <p style="font-weight: 600;color: #0d056e;" class="mt-2 text-dark">Related Regulatory Bodies  </p>
+              <p style="font-weight: 600;color: #0d056e;" class="mt-2 text-dark">Related Regulatory Actions</p>
 <div id="reg-list">
   {% for reg, count in regLen.items %}
   <div class="card reg-item" style="width: 18rem; display: {% if forloop.counter > 5 %}none{% else %}block{% endif %};">
     <div class="card-body p-1">
-      <h5 class="card-title" style="font-size: 13px; font-weight: 650;">
+      <h5 class="card-title" style="font-size: 11px; font-weight: 500;">
         <a href="/findsantionReg/{{reg}}" style="text-decoration: none; color: rgb(90, 96, 99);" class="atag">
           {{ reg }} 
         </a>
@@ -515,7 +611,7 @@
                 {% for country, count in cuntryLen.items %}
                 <div class="card contry-item" style="width: 18rem; display: {% if forloop.counter > 5 %}none{% else %}block{% endif %};">
                   <div class="card-body p-1">
-                    <h5 class="card-title" style="font-size: 13px; font-weight: 650;">
+                    <h5 class="card-title" style="font-size: 11px; font-weight: 500;">
                       <a href="/findsantionCountry/{{country}}" style="text-decoration: none; color: rgb(90, 96, 99);" class="atag">
                         {{ country }} 
                       </a>
@@ -526,6 +622,25 @@
               </div>
               <h5 class="card-title" style="font-size: 13px; font-weight: 500; text-align: center;">
                 <a href="javascript:void(0);" id="load-more-country" style="text-decoration: none; color: rgb(10, 8, 104);" class="atag">More</a>
+              </h5>
+
+
+              <p style="font-weight: 600;color: #0d056e;" class="mt-2 text-dark">RB Profiles</p>
+              <div id="reg-list">
+                {% for id,rb in rbData.items %}
+                <div class="card reg1-item" style="width: 18rem; display: {% if forloop.counter > 5 %}none{% else %}block{% endif %};">
+                  <div class="card-body p-1">
+                    <h5 class="card-title" style="font-size: 11px; font-weight: 500;">
+                      <a href="/sanctionrbProfile/{{id}}" style="text-decoration: none; color: rgb(90, 96, 99);" class="atag">
+                        {{ rb }}
+                      </a>
+                    </h5>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <h5 class="card-title"  style="font-size: 13px; font-weight: 500; text-align: center;">
+                <a href="javascript:void(0);" id="load-more-reg1" style="text-decoration: none; color: rgb(10, 8, 104);" class="atag">More</a>
               </h5>
             
         </div>    
@@ -611,6 +726,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Setup for Related Regulatory Bodies
   setupLoadMore(".reg-item", "load-more-reg", 5, 2);
 
+  setupLoadMore(".reg1-item", "load-more-reg1", 5, 2);
+
   
 });
 
@@ -646,6 +763,15 @@ document.addEventListener("DOMContentLoaded", function () {
         crossorigin="anonymous"></script>
 <script src="{%static 'js/filter.js'%}"></script>
 <script src="{%static 'js/home.js'%}"></script>
+<script src="{%static 'js/table.js'%}"></script>
+<script src="{%static 'js/export.js'%}"></script>
+<!-- SheetJS for Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- jsPDF and AutoTable for PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
 </body>
 
 </html>

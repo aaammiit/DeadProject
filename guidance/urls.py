@@ -24,5 +24,6 @@ urlpatterns = [
     # # path('yearData',v.yearData),
     path('findguidCountry/<str:cntry>',v.findguidCountry),
     path('findguidReg/<str:reg>',v.findguidReg),
+    path('guidrbProfile/<int:id>',v.guidRb),
     
 ]

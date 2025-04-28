@@ -1,0 +1,975 @@
+[
+    {
+        "Sr No.":1,
+        "Country_Name":"Afghanistan",
+        "Our_Country_Name":"Afghanistan",
+        "Country_Code":"AFG",
+        "2023_USD":17233051620.1100006104
+    },
+    {
+        "Sr No.":2,
+        "Country_Name":"Andorra",
+        "Our_Country_Name":"Andorra",
+        "Country_Code":"AND",
+        "2023_USD":3785067331.7600002289
+    },
+    {
+        "Sr No.":3,
+        "Country_Name":"Anguilla",
+        "Our_Country_Name":"Anguilla",
+        "Country_Code":"AIA",
+        "2023_USD":510000000.0
+    },
+    {
+        "Sr No.":4,
+        "Country_Name":"Antigua and Barbuda",
+        "Our_Country_Name":"Antigua and Barbuda",
+        "Country_Code":"ATG",
+        "2023_USD":2033085185.1900000572
+    },
+    {
+        "Sr No.":5,
+        "Country_Name":"Argentina",
+        "Our_Country_Name":"Argentina",
+        "Country_Code":"ARG",
+        "2023_USD":646075277525.1300048828
+    },
+    {
+        "Sr No.":6,
+        "Country_Name":"Armenia",
+        "Our_Country_Name":"Armenia",
+        "Country_Code":"ARM",
+        "2023_USD":24085749592.3400001526
+    },
+    {
+        "Sr No.":7,
+        "Country_Name":"Aruba",
+        "Our_Country_Name":"Aruba",
+        "Country_Code":"ABW",
+        "2023_USD":3648573136.1500000954
+    },
+    {
+        "Sr No.":8,
+        "Country_Name":"Australia",
+        "Our_Country_Name":"Australia",
+        "Country_Code":"AUS",
+        "2023_USD":1728057316695.6101074219
+    },
+    {
+        "Sr No.":9,
+        "Country_Name":"Austria",
+        "Our_Country_Name":"Austria",
+        "Country_Code":"AUT",
+        "2023_USD":511685203845.0
+    },
+    {
+        "Sr No.":10,
+        "Country_Name":"Bahamas, The",
+        "Our_Country_Name":"Bahamas",
+        "Country_Code":"BHS",
+        "2023_USD":14338500000.0
+    },
+    {
+        "Sr No.":11,
+        "Country_Name":"Bahrain",
+        "Our_Country_Name":"Bahrain",
+        "Country_Code":"BHR",
+        "2023_USD":46079867021.2799987793
+    },
+    {
+        "Sr No.":12,
+        "Country_Name":"Bangladesh",
+        "Our_Country_Name":"Bangladesh",
+        "Country_Code":"BGD",
+        "2023_USD":437415331040.9899902344
+    },
+    {
+        "Sr No.":13,
+        "Country_Name":"Barbados",
+        "Our_Country_Name":"Barbados",
+        "Country_Code":"BRB",
+        "2023_USD":6720733200.0
+    },
+    {
+        "Sr No.":14,
+        "Country_Name":"Belarus",
+        "Our_Country_Name":"Belarus",
+        "Country_Code":"BLR",
+        "2023_USD":71857382745.6100006104
+    },
+    {
+        "Sr No.":15,
+        "Country_Name":"Belgium",
+        "Our_Country_Name":"Belgium",
+        "Country_Code":"BEL",
+        "2023_USD":644782756682.7600097656
+    },
+    {
+        "Sr No.":16,
+        "Country_Name":"Belize",
+        "Our_Country_Name":"Belize",
+        "Country_Code":"BLZ",
+        "2023_USD":3066850000.0
+    },
+    {
+        "Sr No.":17,
+        "Country_Name":"Bermuda",
+        "Our_Country_Name":"Bermuda",
+        "Country_Code":"BMU",
+        "2023_USD":8141700000.0
+    },
+    {
+        "Sr No.":18,
+        "Country_Name":"Bhutan",
+        "Our_Country_Name":"Bhutan",
+        "Country_Code":"BTN",
+        "2023_USD":2898227743.0
+    },
+    {
+        "Sr No.":19,
+        "Country_Name":"Bolivia",
+        "Our_Country_Name":"Bolivia",
+        "Country_Code":"BOL",
+        "2023_USD":45135398008.8199996948
+    },
+    {
+        "Sr No.":20,
+        "Country_Name":"Botswana",
+        "Our_Country_Name":"Botswana",
+        "Country_Code":"BWA",
+        "2023_USD":19396084498.0099983215
+    },
+    {
+        "Sr No.":21,
+        "Country_Name":"Brazil",
+        "Our_Country_Name":"Brazil",
+        "Country_Code":"BRA",
+        "2023_USD":2173665655937.2700195312
+    },
+    {
+        "Sr No.":22,
+        "Country_Name":"British Virgin Islands",
+        "Our_Country_Name":"British Virgin Islands",
+        "Country_Code":"VGB",
+        "2023_USD":1757080000.0
+    },
+    {
+        "Sr No.":23,
+        "Country_Name":"Brunei Darussalam",
+        "Our_Country_Name":"Brunei",
+        "Country_Code":"BRN",
+        "2023_USD":15128292980.8600006104
+    },
+    {
+        "Sr No.":24,
+        "Country_Name":"Bulgaria",
+        "Our_Country_Name":"Bulgaria",
+        "Country_Code":"BGR",
+        "2023_USD":102407653020.6100006104
+    },
+    {
+        "Sr No.":25,
+        "Country_Name":"Cambodia",
+        "Our_Country_Name":"Cambodia",
+        "Country_Code":"KHM",
+        "2023_USD":42335646895.8000030518
+    },
+    {
+        "Sr No.":26,
+        "Country_Name":"Canada",
+        "Our_Country_Name":"Canada",
+        "Country_Code":"CAN",
+        "2023_USD":2142470914401.3601074219
+    },
+    {
+        "Sr No.":27,
+        "Country_Name":"Cayman Islands",
+        "Our_Country_Name":"Cayman Islands",
+        "Country_Code":"CYM",
+        "2023_USD":7139428557.7100000381
+    },
+    {
+        "Sr No.":28,
+        "Country_Name":"Chile",
+        "Our_Country_Name":"Chile",
+        "Country_Code":"CHL",
+        "2023_USD":335533331669.2199707031
+    },
+    {
+        "Sr No.":29,
+        "Country_Name":"Colombia",
+        "Our_Country_Name":"Colombia",
+        "Country_Code":"COL",
+        "2023_USD":363493841244.299987793
+    },
+    {
+        "Sr No.":30,
+        "Country_Name":"Costa Rica",
+        "Our_Country_Name":"Costa Rica",
+        "Country_Code":"CRI",
+        "2023_USD":86497941439.0200042725
+    },
+    {
+        "Sr No.":31,
+        "Country_Name":"Cote d'Ivoire",
+        "Our_Country_Name":"C\u00f4te d'Ivoire",
+        "Country_Code":"CIV",
+        "2023_USD":78875489245.0500030518
+    },
+    {
+        "Sr No.":32,
+        "Country_Name":"Croatia",
+        "Our_Country_Name":"Croatia",
+        "Country_Code":"HRV",
+        "2023_USD":84393795502.4400024414
+    },
+    {
+        "Sr No.":33,
+        "Country_Name":"Cyprus",
+        "Our_Country_Name":"Cyprus",
+        "Country_Code":"CYP",
+        "2023_USD":33886930712.3400001526
+    },
+    {
+        "Sr No.":34,
+        "Country_Name":"Czechia",
+        "Our_Country_Name":"Czech Republic",
+        "Country_Code":"CZE",
+        "2023_USD":343207874553.7299804688
+    },
+    {
+        "Sr No.":35,
+        "Country_Name":"Congo, Dem. Rep.",
+        "Our_Country_Name":"Democratic Republic of Congo",
+        "Country_Code":"COD",
+        "2023_USD":66383287002.9899978638
+    },
+    {
+        "Sr No.":36,
+        "Country_Name":"Denmark",
+        "Our_Country_Name":"Denmark",
+        "Country_Code":"DNK",
+        "2023_USD":407091920305.4000244141
+    },
+    {
+        "Sr No.":37,
+        "Country_Name":"Dominica",
+        "Our_Country_Name":"Dominica",
+        "Country_Code":"DMA",
+        "2023_USD":653992592.5900000334
+    },
+    {
+        "Sr No.":38,
+        "Country_Name":"Dominican Republic",
+        "Our_Country_Name":"Dominican Republic",
+        "Country_Code":"DOM",
+        "2023_USD":121444279313.9299926758
+    },
+    {
+        "Sr No.":39,
+        "Country_Name":"Ecuador",
+        "Our_Country_Name":"Ecuador",
+        "Country_Code":"ECU",
+        "2023_USD":118844826000.0
+    },
+    {
+        "Sr No.":40,
+        "Country_Name":"El Salvador",
+        "Our_Country_Name":"El Salvador",
+        "Country_Code":"SLV",
+        "2023_USD":34015620000.0
+    },
+    {
+        "Sr No.":41,
+        "Country_Name":"Estonia",
+        "Our_Country_Name":"Estonia",
+        "Country_Code":"EST",
+        "2023_USD":41291245222.1900024414
+    },
+    {
+        "Sr No.":42,
+        "Country_Name":"European Union",
+        "Our_Country_Name":"European Union",
+        "Country_Code":"EUU",
+        "2023_USD":18590720056635.30078125
+    },
+    {
+        "Sr No.":43,
+        "Country_Name":"Faroe Islands",
+        "Our_Country_Name":"Faroe Islands",
+        "Country_Code":"FRO",
+        "2023_USD":3907323961.3400001526
+    },
+    {
+        "Sr No.":44,
+        "Country_Name":"Finland",
+        "Our_Country_Name":"Finland",
+        "Country_Code":"FIN",
+        "2023_USD":295532341254.9099731445
+    },
+    {
+        "Sr No.":45,
+        "Country_Name":"France",
+        "Our_Country_Name":"France",
+        "Country_Code":"FRA",
+        "2023_USD":3051831611384.759765625
+    },
+    {
+        "Sr No.":46,
+        "Country_Name":"Georgia",
+        "Our_Country_Name":"Georgia",
+        "Country_Code":"GEO",
+        "2023_USD":30777833585.4399986267
+    },
+    {
+        "Sr No.":47,
+        "Country_Name":"Germany",
+        "Our_Country_Name":"Germany",
+        "Country_Code":"DEU",
+        "2023_USD":4525703903627.5302734375
+    },
+    {
+        "Sr No.":48,
+        "Country_Name":"Ghana",
+        "Our_Country_Name":"Ghana",
+        "Country_Code":"GHA",
+        "2023_USD":76370396722.1499938965
+    },
+    {
+        "Sr No.":49,
+        "Country_Name":"Gibraltar",
+        "Our_Country_Name":"Gibraltar",
+        "Country_Code":"GIB",
+        "2023_USD":2911000000.0
+    },
+    {
+        "Sr No.":50,
+        "Country_Name":"Greece",
+        "Our_Country_Name":"Greece",
+        "Country_Code":"GRC",
+        "2023_USD":243498333237.799987793
+    },
+    {
+        "Sr No.":51,
+        "Country_Name":"Grenada",
+        "Our_Country_Name":"Grenada",
+        "Country_Code":"GRD",
+        "2023_USD":1316733333.3299999237
+    },
+    {
+        "Sr No.":52,
+        "Country_Name":"Guatemala",
+        "Our_Country_Name":"Guatemala",
+        "Country_Code":"GTM",
+        "2023_USD":104450210572.0099945068
+    },
+    {
+        "Sr No.":53,
+        "Country_Name":"Guernsey",
+        "Our_Country_Name":"Guernsey",
+        "Country_Code":"GGY",
+        "2023_USD":3488000000.0
+    },
+    {
+        "Sr No.":54,
+        "Country_Name":"Honduras",
+        "Our_Country_Name":"Honduras",
+        "Country_Code":"HND",
+        "2023_USD":34400509852.0
+    },
+    {
+        "Sr No.":55,
+        "Country_Name":"Hong Kong SAR, China",
+        "Our_Country_Name":"Hong Kong",
+        "Country_Code":"HKG",
+        "2023_USD":380812234827.8300170898
+    },
+    {
+        "Sr No.":56,
+        "Country_Name":"Hungary",
+        "Our_Country_Name":"Hungary",
+        "Country_Code":"HUN",
+        "2023_USD":212388906458.7200012207
+    },
+    {
+        "Sr No.":57,
+        "Country_Name":"Iceland",
+        "Our_Country_Name":"Iceland",
+        "Country_Code":"ISL",
+        "2023_USD":31325116556.3800010681
+    },
+    {
+        "Sr No.":58,
+        "Country_Name":"India",
+        "Our_Country_Name":"India",
+        "Country_Code":"IND",
+        "2023_USD":3567551674623.009765625
+    },
+    {
+        "Sr No.":59,
+        "Country_Name":"Indonesia",
+        "Our_Country_Name":"Indonesia",
+        "Country_Code":"IDN",
+        "2023_USD":1371171152331.1599121094
+    },
+    {
+        "Sr No.":60,
+        "Country_Name":"Iran, Islamic Rep.",
+        "Our_Country_Name":"Iran",
+        "Country_Code":"IRN",
+        "2023_USD":404625655204.6199951172
+    },
+    {
+        "Sr No.":61,
+        "Country_Name":"Ireland",
+        "Our_Country_Name":"Ireland",
+        "Country_Code":"IRL",
+        "2023_USD":551394889339.7800292969
+    },
+    {
+        "Sr No.":62,
+        "Country_Name":"Isle of Man",
+        "Our_Country_Name":"Isle of Man",
+        "Country_Code":"IMN",
+        "2023_USD":null
+    },
+    {
+        "Sr No.":63,
+        "Country_Name":"Israel",
+        "Our_Country_Name":"Israel",
+        "Country_Code":"ISR",
+        "2023_USD":513611100815.6900024414
+    },
+    {
+        "Sr No.":64,
+        "Country_Name":"Italy",
+        "Our_Country_Name":"Italy",
+        "Country_Code":"ITA",
+        "2023_USD":2300941152991.8100585938
+    },
+    {
+        "Sr No.":65,
+        "Country_Name":"Jamaica",
+        "Our_Country_Name":"Jamaica",
+        "Country_Code":"JAM",
+        "2023_USD":19423355409.2299995422
+    },
+    {
+        "Sr No.":66,
+        "Country_Name":"Japan",
+        "Our_Country_Name":"Japan",
+        "Country_Code":"JPN",
+        "2023_USD":4204494802431.5498046875
+    },
+    {
+        "Sr No.":67,
+        "Country_Name":"Jersey",
+        "Our_Country_Name":"Jersey",
+        "Country_Code":"JEY",
+        "2023_USD":6575000000.0
+    },
+    {
+        "Sr No.":68,
+        "Country_Name":"Jordan",
+        "Our_Country_Name":"Jordan",
+        "Country_Code":"JOR",
+        "2023_USD":50967475352.1100006104
+    },
+    {
+        "Sr No.":69,
+        "Country_Name":"Kazakhstan",
+        "Our_Country_Name":"Kazakhstan",
+        "Country_Code":"KAZ",
+        "2023_USD":262641892078.5199890137
+    },
+    {
+        "Sr No.":70,
+        "Country_Name":"Kenya",
+        "Our_Country_Name":"Kenya",
+        "Country_Code":"KEN",
+        "2023_USD":108038588970.6000061035
+    },
+    {
+        "Sr No.":71,
+        "Country_Name":"Swaziland",
+        "Our_Country_Name":"Kingdom of Eswatini",
+        "Country_Code":"SWZ",
+        "2023_USD":4440000000.0
+    },
+    {
+        "Sr No.":72,
+        "Country_Name":"Saudi Arabia",
+        "Our_Country_Name":"Kingdom of Saudi Arabia",
+        "Country_Code":"SAU",
+        "2023_USD":1067582933333.3299560547
+    },
+    {
+        "Sr No.":73,
+        "Country_Name":"Kosovo",
+        "Our_Country_Name":"Kosovo",
+        "Country_Code":"XKX",
+        "2023_USD":10468219225.4899997711
+    },
+    {
+        "Sr No.":74,
+        "Country_Name":"Kuwait",
+        "Our_Country_Name":"Kuwait",
+        "Country_Code":"KWT",
+        "2023_USD":163704878875.8500061035
+    },
+    {
+        "Sr No.":75,
+        "Country_Name":"Latvia",
+        "Our_Country_Name":"Latvia",
+        "Country_Code":"LVA",
+        "2023_USD":42247850064.5100021362
+    },
+    {
+        "Sr No.":76,
+        "Country_Name":"Lebanon",
+        "Our_Country_Name":"Lebanon",
+        "Country_Code":"LBN",
+        "2023_USD":20990000000.0
+    },
+    {
+        "Sr No.":77,
+        "Country_Name":"Lesotho",
+        "Our_Country_Name":"Lesotho",
+        "Country_Code":"LSO",
+        "2023_USD":2117962450.7899999619
+    },
+    {
+        "Sr No.":78,
+        "Country_Name":"Liechtenstein",
+        "Our_Country_Name":"Liechtenstein",
+        "Country_Code":"LIE",
+        "2023_USD":7360000000.0
+    },
+    {
+        "Sr No.":79,
+        "Country_Name":"Lithuania",
+        "Our_Country_Name":"Lithuania",
+        "Country_Code":"LTU",
+        "2023_USD":79789877416.1699981689
+    },
+    {
+        "Sr No.":80,
+        "Country_Name":"Luxembourg",
+        "Our_Country_Name":"Luxembourg",
+        "Country_Code":"LUX",
+        "2023_USD":85755006123.6000061035
+    },
+    {
+        "Sr No.":81,
+        "Country_Name":"Malawi",
+        "Our_Country_Name":"Malawi",
+        "Country_Code":"MWI",
+        "2023_USD":12712150082.0799999237
+    },
+    {
+        "Sr No.":82,
+        "Country_Name":"Malaysia",
+        "Our_Country_Name":"Malaysia",
+        "Country_Code":"MYS",
+        "2023_USD":399705169318.4799804688
+    },
+    {
+        "Sr No.":83,
+        "Country_Name":"Malta",
+        "Our_Country_Name":"Malta",
+        "Country_Code":"MLT",
+        "2023_USD":22328640241.5600013733
+    },
+    {
+        "Sr No.":84,
+        "Country_Name":"Mauritania",
+        "Our_Country_Name":"Mauritania",
+        "Country_Code":"MRT",
+        "2023_USD":10651709411.4599990845
+    },
+    {
+        "Sr No.":85,
+        "Country_Name":"Mauritius",
+        "Our_Country_Name":"Mauritius",
+        "Country_Code":"MUS",
+        "2023_USD":14644524819.0100002289
+    },
+    {
+        "Sr No.":86,
+        "Country_Name":"Mexico",
+        "Our_Country_Name":"Mexico",
+        "Country_Code":"MEX",
+        "2023_USD":1789114434843.4599609375
+    },
+    {
+        "Sr No.":87,
+        "Country_Name":"Mongolia",
+        "Our_Country_Name":"Mongolia",
+        "Country_Code":"MNG",
+        "2023_USD":20325121393.9099998474
+    },
+    {
+        "Sr No.":88,
+        "Country_Name":"Montenegro",
+        "Our_Country_Name":"Montenegro",
+        "Country_Code":"MNE",
+        "2023_USD":7530593375.220000267
+    },
+    {
+        "Sr No.":89,
+        "Country_Name":"Montserrat",
+        "Our_Country_Name":"Montserrat",
+        "Country_Code":"MSR",
+        "2023_USD":217160000.0
+    },
+    {
+        "Sr No.":90,
+        "Country_Name":"Morocco",
+        "Our_Country_Name":"Morocco",
+        "Country_Code":"MAR",
+        "2023_USD":144417103249.6499938965
+    },
+    {
+        "Sr No.":91,
+        "Country_Name":"Nepal",
+        "Our_Country_Name":"Nepal",
+        "Country_Code":"NPL",
+        "2023_USD":40908073366.8499984741
+    },
+    {
+        "Sr No.":92,
+        "Country_Name":"Netherlands",
+        "Our_Country_Name":"Netherlands",
+        "Country_Code":"NLD",
+        "2023_USD":1154361305398.0600585938
+    },
+    {
+        "Sr No.":93,
+        "Country_Name":"New Zealand",
+        "Our_Country_Name":"New Zealand",
+        "Country_Code":"NZL",
+        "2023_USD":252175506110.1700134277
+    },
+    {
+        "Sr No.":94,
+        "Country_Name":"Nicaragua",
+        "Our_Country_Name":"Nicaragua",
+        "Country_Code":"NIC",
+        "2023_USD":17829218219.3600006104
+    },
+    {
+        "Sr No.":95,
+        "Country_Name":"Nigeria",
+        "Our_Country_Name":"Nigeria",
+        "Country_Code":"NGA",
+        "2023_USD":363846332834.6199951172
+    },
+    {
+        "Sr No.":96,
+        "Country_Name":"North Macedonia",
+        "Our_Country_Name":"North Macedonia",
+        "Country_Code":"MKD",
+        "2023_USD":15763621848.1200008392
+    },
+    {
+        "Sr No.":97,
+        "Country_Name":"Norway",
+        "Our_Country_Name":"Norway",
+        "Country_Code":"NOR",
+        "2023_USD":485310823603.6599731445
+    },
+    {
+        "Sr No.":98,
+        "Country_Name":"OECD members",
+        "Our_Country_Name":"OECD members",
+        "Country_Code":"OED",
+        "2023_USD":64746562052056.703125
+    },
+    {
+        "Sr No.":99,
+        "Country_Name":"Oman",
+        "Our_Country_Name":"Oman",
+        "Country_Code":"OMN",
+        "2023_USD":108810923276.9799957275
+    },
+    {
+        "Sr No.":100,
+        "Country_Name":"Pakistan",
+        "Our_Country_Name":"Pakistan",
+        "Country_Code":"PAK",
+        "2023_USD":337912301397.7299804688
+    },
+    {
+        "Sr No.":101,
+        "Country_Name":"Panama",
+        "Our_Country_Name":"Panama",
+        "Country_Code":"PAN",
+        "2023_USD":83318176900.0
+    },
+    {
+        "Sr No.":102,
+        "Country_Name":"Papua New Guinea",
+        "Our_Country_Name":"Papua New Guinea",
+        "Country_Code":"PNG",
+        "2023_USD":30729242919.4399986267
+    },
+    {
+        "Sr No.":103,
+        "Country_Name":"China",
+        "Our_Country_Name":"People's Republic of China",
+        "Country_Code":"CHN",
+        "2023_USD":17794783039552.0
+    },
+    {
+        "Sr No.":104,
+        "Country_Name":"Peru",
+        "Our_Country_Name":"Peru",
+        "Country_Code":"PER",
+        "2023_USD":267603248655.25
+    },
+    {
+        "Sr No.":105,
+        "Country_Name":"Philippines",
+        "Our_Country_Name":"Philippines",
+        "Country_Code":"PHL",
+        "2023_USD":437146372729.9400024414
+    },
+    {
+        "Sr No.":106,
+        "Country_Name":"Portugal",
+        "Our_Country_Name":"Portugal",
+        "Country_Code":"PRT",
+        "2023_USD":289114289663.5399780273
+    },
+    {
+        "Sr No.":107,
+        "Country_Name":"Qatar",
+        "Our_Country_Name":"Qatar",
+        "Country_Code":"QAT",
+        "2023_USD":213002809330.2699890137
+    },
+    {
+        "Sr No.":108,
+        "Country_Name":"Congo R.",
+        "Our_Country_Name":"Republic of Congo",
+        "Country_Code":"CGR",
+        "2023_USD":15321055822.5200004578
+    },
+    {
+        "Sr No.":109,
+        "Country_Name":"Korea, Rep.",
+        "Our_Country_Name":"Republic of Korea",
+        "Country_Code":"KOR",
+        "2023_USD":1712792854202.3701171875
+    },
+    {
+        "Sr No.":110,
+        "Country_Name":"Romania",
+        "Our_Country_Name":"Romania",
+        "Country_Code":"ROU",
+        "2023_USD":350775856415.1900024414
+    },
+    {
+        "Sr No.":111,
+        "Country_Name":"Russian Federation",
+        "Our_Country_Name":"Russia",
+        "Country_Code":"RUS",
+        "2023_USD":2021421476035.419921875
+    },
+    {
+        "Sr No.":112,
+        "Country_Name":"St. Kitts and Nevis",
+        "Our_Country_Name":"Saint Kitts and Nevis",
+        "Country_Code":"KNA",
+        "2023_USD":1055499777.7799999714
+    },
+    {
+        "Sr No.":113,
+        "Country_Name":"St. Vincent and the Grenadines",
+        "Our_Country_Name":"Saint Vincent and the Grenadines",
+        "Country_Code":"VCT",
+        "2023_USD":1065962962.9600000381
+    },
+    {
+        "Sr No.":114,
+        "Country_Name":"Samoa",
+        "Our_Country_Name":"Samoa",
+        "Country_Code":"WSM",
+        "2023_USD":938189443.8300000429
+    },
+    {
+        "Sr No.":115,
+        "Country_Name":"San Marino",
+        "Our_Country_Name":"San Marino",
+        "Country_Code":"SMR",
+        "2023_USD":1830000000.0
+    },
+    {
+        "Sr No.":116,
+        "Country_Name":"Serbia",
+        "Our_Country_Name":"Serbia",
+        "Country_Code":"SRB",
+        "2023_USD":81342660752.3699951172
+    },
+    {
+        "Sr No.":117,
+        "Country_Name":"Seychelles",
+        "Our_Country_Name":"Seychelles",
+        "Country_Code":"SYC",
+        "2023_USD":2141450171.1400001049
+    },
+    {
+        "Sr No.":118,
+        "Country_Name":"Singapore",
+        "Our_Country_Name":"Singapore",
+        "Country_Code":"SGP",
+        "2023_USD":501427500080.0599975586
+    },
+    {
+        "Sr No.":119,
+        "Country_Name":"Slovak Republic",
+        "Our_Country_Name":"Slovakia",
+        "Country_Code":"SVK",
+        "2023_USD":132908336234.3000030518
+    },
+    {
+        "Sr No.":120,
+        "Country_Name":"Slovenia",
+        "Our_Country_Name":"Slovenia",
+        "Country_Code":"SVN",
+        "2023_USD":68216781411.0
+    },
+    {
+        "Sr No.":121,
+        "Country_Name":"South Africa",
+        "Our_Country_Name":"South Africa",
+        "Country_Code":"ZAF",
+        "2023_USD":380699271814.5100097656
+    },
+    {
+        "Sr No.":122,
+        "Country_Name":"Spain",
+        "Our_Country_Name":"Spain",
+        "Country_Code":"ESP",
+        "2023_USD":1620090734956.8898925781
+    },
+    {
+        "Sr No.":123,
+        "Country_Name":"Sri Lanka",
+        "Our_Country_Name":"Sri Lanka",
+        "Country_Code":"LKA",
+        "2023_USD":84356863743.6300048828
+    },
+    {
+        "Sr No.":124,
+        "Country_Name":"Sweden",
+        "Our_Country_Name":"Sweden",
+        "Country_Code":"SWE",
+        "2023_USD":584960475767.3199462891
+    },
+    {
+        "Sr No.":125,
+        "Country_Name":"Switzerland",
+        "Our_Country_Name":"Switzerland",
+        "Country_Code":"CHE",
+        "2023_USD":884940402230.4100341797
+    },
+    {
+        "Sr No.":126,
+        "Country_Name":"Tanzania",
+        "Our_Country_Name":"Tanzania",
+        "Country_Code":"TZA",
+        "2023_USD":79062403820.8899993896
+    },
+    {
+        "Sr No.":127,
+        "Country_Name":"Thailand",
+        "Our_Country_Name":"Thailand",
+        "Country_Code":"THA",
+        "2023_USD":514968699239.0100097656
+    },
+    {
+        "Sr No.":128,
+        "Country_Name":"Trinidad and Tobago",
+        "Our_Country_Name":"Trinidad and Tobago",
+        "Country_Code":"TTO",
+        "2023_USD":27372285697.9500007629
+    },
+    {
+        "Sr No.":129,
+        "Country_Name":"Tunisia",
+        "Our_Country_Name":"Tunisia",
+        "Country_Code":"TUN",
+        "2023_USD":48529595416.6500015259
+    },
+    {
+        "Sr No.":130,
+        "Country_Name":"Turkiye",
+        "Our_Country_Name":"Turkiye",
+        "Country_Code":"TUR",
+        "2023_USD":1118252964260.7700195312
+    },
+    {
+        "Sr No.":131,
+        "Country_Name":"Uganda",
+        "Our_Country_Name":"Uganda",
+        "Country_Code":"UGA",
+        "2023_USD":48768955863.3199996948
+    },
+    {
+        "Sr No.":132,
+        "Country_Name":"Ukraine",
+        "Our_Country_Name":"Ukraine",
+        "Country_Code":"UKR",
+        "2023_USD":178757021965.0100097656
+    },
+    {
+        "Sr No.":133,
+        "Country_Name":"United Arab Emirates",
+        "Our_Country_Name":"United Arab Emirates",
+        "Country_Code":"ARE",
+        "2023_USD":514130432653.0800170898
+    },
+    {
+        "Sr No.":134,
+        "Country_Name":"United Kingdom",
+        "Our_Country_Name":"United Kingdom",
+        "Country_Code":"GBR",
+        "2023_USD":3380854520809.5400390625
+    },
+    {
+        "Sr No.":135,
+        "Country_Name":"United States",
+        "Our_Country_Name":"United States of America",
+        "Country_Code":"USA",
+        "2023_USD":27720709000000.0
+    },
+    {
+        "Sr No.":136,
+        "Country_Name":"Uruguay",
+        "Our_Country_Name":"Uruguay",
+        "Country_Code":"URY",
+        "2023_USD":77240830877.4600067139
+    },
+    {
+        "Sr No.":137,
+        "Country_Name":"Viet Nam",
+        "Our_Country_Name":"Vietnam",
+        "Country_Code":"VNM",
+        "2023_USD":429716969043.5700073242
+    },
+    {
+        "Sr No.":138,
+        "Country_Name":"Zambia",
+        "Our_Country_Name":"Zambia",
+        "Country_Code":"ZMB",
+        "2023_USD":27577956471.2400016785
+    },
+    {
+        "Sr No.":139,
+        "Country_Name":"Zimbabwe",
+        "Our_Country_Name":"Zimbabwe",
+        "Country_Code":"ZWE",
+        "2023_USD":35231367885.8600006104
+    }
+]

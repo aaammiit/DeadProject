@@ -21,6 +21,7 @@ class krimaCompanyData(models.Model):
         rbContinent = models.CharField(max_length=100 , blank=True , null=True)
         rbState = models.CharField(max_length=100 , blank=True , null=True)
         Regulatory = models.CharField(max_length=100 , blank=True , null=True)
+        RegFullName = models.CharField(max_length=100 , blank=True , null=True)
         Date = models.DateField(blank=True , null=True)
         Date1 = models.DateField(blank=True , null=True)
         Title = models.CharField(max_length=1000 , blank=True , null=True)
@@ -116,3 +117,9 @@ class webUser(models.Model):
     def __str__(self):
         user=self.user.username
         return user
+    
+# class WebProfile(models.Model):
+#     user=models.ForeignKey(User,on_delete=models.CASCADE)  
+#     First_name=models.CharField(max_length=100,null=True,blank=True)
+#     Last_name=models.CharField(max_length=100,null=True,blank=True)
+    

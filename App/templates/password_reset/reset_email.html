@@ -1,0 +1,13 @@
+{% autoescape off %}
+Hi {{ user.get_username }},
+
+We received a request to reset your password.
+
+Click the link below to reset it:
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+If you didn’t request this, ignore this email.
+
+Thanks,  
+{{ site_name }} Team
+{% endautoescape %}
